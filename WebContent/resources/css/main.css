@@ -1,0 +1,36 @@
+@CHARSET "UTF-8";
+
+body {
+	color: #006C26;
+}
+
+img {
+	max-width: 100%;
+}
+
+header {
+	background: #F9F9F9;
+}
+
+figure {
+	padding: 1%;
+}
+
+a {
+    color: #999;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #999;
+}
+
+.fundo-branco {
+	background: #FFF;
+	min-height: 62.76041666666667%;
+}
+
+.clear {
+	clear:both;
+}
+
