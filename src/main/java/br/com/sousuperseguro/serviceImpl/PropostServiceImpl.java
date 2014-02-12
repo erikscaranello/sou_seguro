@@ -60,7 +60,15 @@ public class PropostServiceImpl implements PropostaService{
 		
 		int resto = numeroFinal % 10;
 		
-		String digitoVerificador = String.valueOf(10 - resto);
+		
+		String digitoVerificador = "";
+		if(resto == 0) {
+			digitoVerificador = String.valueOf(0);
+		} else {
+			digitoVerificador = String.valueOf(10 - resto);
+		}
+		
+		
 		
 		// digito verificador antigo com hifen
 		return sigla + novaString + "" + digitoVerificador;

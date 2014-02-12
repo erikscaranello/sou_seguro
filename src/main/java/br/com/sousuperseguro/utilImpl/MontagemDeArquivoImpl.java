@@ -2,6 +2,7 @@ package br.com.sousuperseguro.utilImpl;
 
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -21,20 +22,17 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 //	@Autowired
 //	ArquivosEnvioService arquivosEnvioService;
 	
-	private int contagemNumeroLinhas = 0;
-
+	
 	@Override
 	public String montagemCTipoRegistro() {
 		
-		String stringRetornoArquivo = "";
+		String header = "";
 
-		stringRetornoArquivo = stringRetornoArquivo + "0";
+		header = header + "0";
 
-		stringRetornoArquivo = stringRetornoArquivo
-				+ "SUPERSEGURO                                       ";
+		header = header + "SUPERSEGURO                                       ";
 
-		stringRetornoArquivo = stringRetornoArquivo
-				+ "ODONTOPREV                                        ";
+		header = header + "ODONTOPREV                                        ";
 
 		ArquivosEnvioRepositoryImpl arquivosEnvioService = new ArquivosEnvioRepositoryImpl();
 		
@@ -57,7 +55,7 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 					.getTime());
 		}
 
-		stringRetornoArquivo = stringRetornoArquivo + dataDeHoje;
+		header = header + dataDeHoje;
 
 		String numeroDoArquivoString = String.valueOf(numeroArquivo);
 
@@ -67,25 +65,26 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 			numeroDoArquivoString = "0" + numeroDoArquivoString;
 		}
 
-		stringRetornoArquivo = stringRetornoArquivo + numeroDoArquivoString;
+		header = header + numeroDoArquivoString;
 
 		String filler = "";
-		for (int i = 0; i < 1031; i++) {
+		for (int i = 0; i < 1032; i++) {
 			filler = filler + " ";
 		}
 
-		stringRetornoArquivo = stringRetornoArquivo + filler;
+		header = header + filler;
 
 		List<RecebidoSouSuperSeguro> listaRecebidos = arquivosEnvioService
 				.selecionarRecebidosSuperSeguro();
 
 		
 		
-		stringRetornoArquivo = stringRetornoArquivo + System.getProperty("line.separator"); 
+		header = header + System.getProperty("line.separator"); 
 		
-		
+		String stringRetornoArquivo = "";
 		for (RecebidoSouSuperSeguro recebido : listaRecebidos) {
-			 contagemNumeroLinhas ++;
+			
+
 
 			stringRetornoArquivo = stringRetornoArquivo
 					+ recebido.getContrato() + "    ";
@@ -121,8 +120,27 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 			stringRetornoArquivo = stringRetornoArquivo + dataNascimento;
 			stringRetornoArquivo = stringRetornoArquivo + recebido.getcSexo().getSexo();
 
-			stringRetornoArquivo = stringRetornoArquivo + recebido.getCpf();
-
+			/*
+			 * CPF 
+			 * 
+			 */
+			
+			if(recebido.getCpf().length() < 11) {
+				String cpfCobranca = recebido.getCpf();	
+				for( int i = 0; i < (11 - recebido.getCpf().length()) ; i++) {
+					cpfCobranca = "0" + cpfCobranca;
+				}
+				
+				stringRetornoArquivo = stringRetornoArquivo
+						+ cpfCobranca;
+				
+			} else {
+				stringRetornoArquivo = stringRetornoArquivo
+						+ recebido.getCpf();
+			}
+			
+			
+			
 			// pis pasep
 			stringRetornoArquivo = stringRetornoArquivo + "           ";
 
@@ -270,8 +288,25 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 
 			stringRetornoArquivo = stringRetornoArquivo + calDtNascCobr;
 
-			stringRetornoArquivo = stringRetornoArquivo
-					+ recebido.getRecebidoSouSuperSeguroCobranca().getCpfCobr();
+			
+			/*
+			 * cpf cobranca
+			 */
+			
+			if(recebido.getRecebidoSouSuperSeguroCobranca().getCpfCobr().length() < 11) {
+				String cpfCobranca = recebido.getRecebidoSouSuperSeguroCobranca().getCpfCobr();	
+				for( int i = 0; i < (11 - recebido.getRecebidoSouSuperSeguroCobranca().getCpfCobr().length()) ; i++) {
+					cpfCobranca = "0" + cpfCobranca;
+				}
+				
+				stringRetornoArquivo = stringRetornoArquivo
+						+ cpfCobranca;
+				
+			} else {
+				stringRetornoArquivo = stringRetornoArquivo
+						+ recebido.getRecebidoSouSuperSeguroCobranca().getCpfCobr();
+			}
+			
 			
 			
 			/////////
@@ -368,21 +403,47 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 			stringRetornoArquivo = stringRetornoArquivo + inicioCobranca;
 			
 			
+			String numeroBanco = (recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getNroBanco() != null ? String.valueOf(recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getNroBanco().getBanco()) : "   ");
+			stringRetornoArquivo = stringRetornoArquivo + numeroBanco;
+			
+			String numeroAgencia = (recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getNroAgencia() != null ? acertoDeCamposForComZeros(recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getNroAgencia(), 4) : "    "); 
+			stringRetornoArquivo = stringRetornoArquivo + numeroAgencia;
+			
+			String dvAgencia = (recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getDvAgencia() != null ? recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getDvAgencia() : " ");
+			stringRetornoArquivo = stringRetornoArquivo + dvAgencia;
+			
+			String contaCorrente = (recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getcCorrente() != null ? acertoDeCamposForComZeros(recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getcCorrente(), 14) : "              ");
+			stringRetornoArquivo = stringRetornoArquivo + contaCorrente;
+			
+			String dvConta = (recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getDvConta() != null ? recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getDvConta() : " ");
+			stringRetornoArquivo = stringRetornoArquivo + dvConta;
 			
 			
-			
-			
-			stringRetornoArquivo = stringRetornoArquivo + recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getNroBanco().getBanco();
-			
-			stringRetornoArquivo = stringRetornoArquivo + recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getNroAgencia();
-			stringRetornoArquivo = stringRetornoArquivo + recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getDvAgencia();
-			stringRetornoArquivo = stringRetornoArquivo + acertoDeCamposFor(recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getcCorrente(), 14);
-			stringRetornoArquivo = stringRetornoArquivo + recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getDvConta();
 			stringRetornoArquivo = stringRetornoArquivo + recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getTpCobr().getTipoCobranca();
 			
 			stringRetornoArquivo = stringRetornoArquivo + acertoDeCamposFor(recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getNmTitCorrente(), 70);
 			
-			stringRetornoArquivo = stringRetornoArquivo + recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getCpfTitCorrente();
+			/*
+			 * 
+			 * CPF mensalidade
+			 * 
+			 */
+			
+			if(recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getCpfTitCorrente().length() < 11) {
+				String cpfCobranca = recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getCpfTitCorrente();	
+				for( int i = 0; i < (11 - recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getCpfTitCorrente().length()) ; i++) {
+					cpfCobranca = "0" + cpfCobranca;
+				}
+				
+				stringRetornoArquivo = stringRetornoArquivo
+						+ cpfCobranca;
+				
+			} else {
+				stringRetornoArquivo = stringRetornoArquivo
+						+ recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getCpfTitCorrente();
+			}
+			
+			
 			stringRetornoArquivo = stringRetornoArquivo + recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getcParentescoCobr().getParentesco();
 						
 		
@@ -395,16 +456,14 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 			
 		
 			
-			if( contagemNumeroLinhas != listaRecebidos.size()) {
-				stringRetornoArquivo = stringRetornoArquivo + System.getProperty("line.separator");
-			}
-			
+			stringRetornoArquivo = stringRetornoArquivo + System.getProperty("line.separator");	
+						
 		}
 
 		
 		
 		//C tipo registro
-		String stringRetornoArquivoTraller = "9";
+		String trailer  = "9";
 		
 		//Numero total de arquivos
 		String quantRecebidos = "";
@@ -412,19 +471,19 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 		for(int i = 0; i < (10 - tamanhoListaDeArquivos); i++) {
 			quantRecebidos = "0" + quantRecebidos;
 		}
-		stringRetornoArquivoTraller = stringRetornoArquivoTraller + quantRecebidos + (listaRecebidos.size() + 2); 
+		trailer = trailer + quantRecebidos + (listaRecebidos.size() + 2); 
 		
 		
 		
 		for(int i = 0; i < 1139 ; i++) {
-			stringRetornoArquivoTraller = stringRetornoArquivoTraller + " ";
+			trailer = trailer + " ";
 		}
 		
 		
-		System.out.println(stringRetornoArquivo);
-		System.out.println(stringRetornoArquivoTraller);
+		System.out.println(header + stringRetornoArquivo + trailer);
 		
-		return stringRetornoArquivo;
+	
+		return null;
 	}
 
 	
@@ -439,7 +498,7 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 	private String acertoDeCamposFor(String campo, int numeroDeColunas) {
 
 			
-		if(campo.isEmpty()) {
+		if(campo == null || campo.isEmpty()) {
 			for (int j = 0; j < numeroDeColunas; j++) {
 				campo = campo + " ";
 			}
@@ -456,9 +515,28 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 			return campo;
 			
 		}
-		
-		
+	}
+	
+	private String acertoDeCamposForComZeros(String campo, int numeroDeColunas) {
 
+		
+		if(campo == null || campo.isEmpty()) {
+			for (int j = 0; j < numeroDeColunas; j++) {
+				campo = "0" + campo;
+			}
+			
+			return campo;
+			
+		} else {
+			
+			int contagem = numeroDeColunas - campo.length();
+			for (int j = 0; j < contagem; j++) {
+				campo = "0" + campo;
+			}
+
+			return campo;
+			
+		}
 	}
 
 }

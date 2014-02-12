@@ -36,13 +36,13 @@ public class RecebidoSouSuperSeguroPagamentoMensalidade implements Serializable{
 	@Column(name="nro_agencia", nullable=true, length=4)
 	private String nroAgencia;
 	
-	@Column(name="dv_agencia", nullable=true, length=2)
+	@Column(name="dv_agencia", nullable=true, length=1)
 	private String dvAgencia;
 	
 	@Column(name="c_corrente", nullable=true, length=14)
 	private String cCorrente;
 
-	@Column(name="dv_conta", nullable=true, length=2)
+	@Column(name="dv_conta", nullable=true, length=1)
 	private String dvConta;
 	
 	@Enumerated(EnumType.STRING)

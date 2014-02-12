@@ -1,19 +1,19 @@
 package teste;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.math.BigInteger;
 
-import br.com.sousuperseguro.utilImpl.MontagemDeArquivoImpl;
+import org.junit.Test;
 
-@Controller
+import br.com.sousuperseguro.serviceImpl.PropostServiceImpl;
+
+
 public class FazerArquivo {
-		
-	@RequestMapping("/fazer_teste")
+	
+	@Test
 	public void fazerTeste() {
 		
-		MontagemDeArquivoImpl repository = new MontagemDeArquivoImpl(); 
-		
-		repository.montagemCTipoRegistro();
+		PropostServiceImpl proposta = new PropostServiceImpl();
+		proposta.calcularProposta(new BigInteger("40"));
 		
 	}
 }
