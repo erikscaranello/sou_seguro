@@ -24,9 +24,17 @@
       </plugin>
     </plugins>
   </build>
-  
-  
-  
+
+	<repositories>
+		<repository>
+	   		<id>jrimum.org</id>
+	   		<url>http://jrimum.org/maven/content/groups/public/</url>
+	   		<snapshots>
+	      		<enabled>true</enabled>
+	   		</snapshots>
+	 	</repository>
+	</repositories>
+	
   <properties>
 		<org.springframework.version>3.2.4.RELEASE</org.springframework.version>
   		<org.springframework.security.version>3.1.4.RELEASE</org.springframework.security.version>
@@ -250,6 +258,12 @@
 			<groupId>org.apache.directory.studio</groupId>
 			<artifactId>org.apache.commons.logging</artifactId>
 			<version>1.1.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jrimum</groupId>
+			<artifactId>jrimum-bopepo</artifactId>
+			<version>0.2.3-SNAPSHOT</version>
 		</dependency>
 		    						
  	</dependencies>

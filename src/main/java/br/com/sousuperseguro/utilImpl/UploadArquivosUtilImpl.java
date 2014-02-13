@@ -9,6 +9,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.jrimum.bopepo.view.BoletoViewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,8 @@ import br.com.sousuperseguro.entities.recusadas.RecebidoSouSuperSeguroRecusada;
 import br.com.sousuperseguro.repository.PropostaRepository;
 import br.com.sousuperseguro.repository.UploadDeArquivosRepository;
 import br.com.sousuperseguro.service.PropostaService;
+import br.com.sousuperseguro.util.BoletoBancario;
+import br.com.sousuperseguro.util.EnvioDeEmail;
 import br.com.sousuperseguro.util.MontagemDeArquivo;
 import br.com.sousuperseguro.util.Serializacao;
 import br.com.sousuperseguro.util.StringParaArray;
@@ -43,6 +46,12 @@ public class UploadArquivosUtilImpl implements UploadArquivosUtil {
 	
 	@Autowired
 	MontagemDeArquivo mostangemDeArquivo;
+	
+	@Autowired
+	BoletoBancario boletoBancario;
+	
+	@Autowired
+	EnvioDeEmail envioDeEmail;
 	
 	@Override
 	public void fazerUpload(List<FileItem> itens) {
@@ -86,7 +95,9 @@ public class UploadArquivosUtilImpl implements UploadArquivosUtil {
 							propostaNova.setIdRecebidoSouSuperSeguro(ultimoRecebido);
 							
 							propostaRepository.insert(propostaNova);
+							BoletoViewer boleto = boletoBancario.gerarBoleto(retorno);
 							
+							envioDeEmail.enviarEmailComBoleto(retorno, boleto);
 							
 						} catch(Exception e) {
 							
@@ -104,7 +115,7 @@ public class UploadArquivosUtilImpl implements UploadArquivosUtil {
 			}
 			
 			
-			System.out.println(mostangemDeArquivo.montagemCTipoRegistro());
+//			System.out.println(mostangemDeArquivo.montagemCTipoRegistro());
 			
 		}
 	}
