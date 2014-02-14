@@ -2,7 +2,6 @@ package br.com.sousuperseguro.utilImpl;
 
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -111,7 +110,6 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 			
 			stringRetornoArquivo = stringRetornoArquivo
 					+ acertoDeCamposFor(recebido.getNome(), 70);
-			;
 
 			simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Calendar cal = recebido.getDtNascimento();
@@ -475,7 +473,7 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 		
 		
 		
-		for(int i = 0; i < 1139 ; i++) {
+		for(int i = 0; i < 1140 ; i++) {
 			trailer = trailer + " ";
 		}
 		

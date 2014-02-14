@@ -1,7 +1,6 @@
 package br.com.sousuperseguro.utilImpl;
 
 import java.math.BigInteger;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import br.com.sousuperseguro.entities.RecebidoSouSuperSeguro;
 import br.com.sousuperseguro.entities.RecebidoSouSuperSeguroCobranca;
-import br.com.sousuperseguro.entities.RecebidoSouSuperSeguroDadosFinais;
 import br.com.sousuperseguro.entities.RecebidoSouSuperSeguroPagamentoMensalidade;
 import br.com.sousuperseguro.entities.recusadas.RecebidoSouSuperSeguroCobrancaRecusada;
 import br.com.sousuperseguro.entities.recusadas.RecebidoSouSuperSeguroPagamentoMensalidadeRecusada;
@@ -55,18 +53,57 @@ public class StringParaArrayImpl implements StringParaArray{
 				recebidoSouSuperSeguro.setNome(linhaRecebida.getCell(3).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(3).getStringCellValue());
 				
 				
-				if(!linhaRecebida.getCell(4).getStringCellValue().isEmpty()) { 
-					SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy"); 
-					Calendar cal = Calendar.getInstance(); 
+				if(!linhaRecebida.getCell(4).getStringCellValue().isEmpty()) {
 					
-					try {
-						cal.setTime(simpleDateFormat.parse(linhaRecebida.getCell(4).getStringCellValue()));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
+//					SimpleDateFormat sdf = new SimpleDateFormat(linhaRecebida.getCell(4).getCellStyle().getDataFormatString());
+//					String[] teste = linhaRecebida.getCell(4).getStringCellValue().split("/");
+//					
+//					cellValue = sdf.format(linhaRecebida.getCell(4).getStringCellValue());
+//			
+//					
+//					short valorCelula = .getCellStyle().getDataFormat();
+//					
+//								
+//					Calendar cal = Calendar.getInstance(); 
+//					cal.setTimeInMillis(valorCelula.numFormattingRuns());
+//					
+//					recebidoSouSuperSeguro.setDtNascimento(cal);
+					
+					Calendar cal = Calendar.getInstance();
 					
 					recebidoSouSuperSeguro.setDtNascimento(cal);
+					
 				}
+				
+//			case HSSFCell.CELL_TYPE_NUMERIC:
+//			      // If the cell value is a number, create an attribute
+//			      // for the cellElement to state the data type is numeric
+//			      Attribute cellAttribute = new Attribute("dataType", "Numeric");
+//
+//			      // Add the attribute to the cell
+//			      cellElement.addAttribute(cellAttribute);
+//
+//			      // Apply the formatting from the cells to the raw data
+//			      // to get the right format in the XML. First, create an
+//			      // HSSFDataFormatter object.
+//
+//			      HSSFDataFormatter dataFormatter = new HSSFDataFormatter();
+//
+//			      // Then use the HSSFDataFormatter to return a formatted string
+//			      // from the cell rather than a raw numeric value:
+//			      String cellFormatted = dataFormatter.formatCellValue(oneCell);
+//
+//			      //Append the formatted data into the element
+//			      cellElement.appendChild(cellFormatted);
+//
+//			      // Append the cell element into the row
+//			      rowElement.appendChild(cellElement);
+//
+//			      break;
+				
+				
+				
+				
 				
 				recebidoSouSuperSeguro.setcSexo(verificarEnums.verificarSexo(linhaRecebida.getCell(5).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(5).getStringCellValue()));
 				recebidoSouSuperSeguro.setCpf(linhaRecebida.getCell(6).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(6).getStringCellValue().replace(".", "").replace("-", ""));
@@ -87,16 +124,10 @@ public class StringParaArrayImpl implements StringParaArray{
 				
 				recebidoSouSuperSeguroCobranca.setNmCobr(linhaRecebida.getCell(18).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(18).getStringCellValue());
 				
-				if(!linhaRecebida.getCell(19).getStringCellValue().isEmpty()) { 
-					SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy"); 
+				if(!linhaRecebida.getCell(19).getStringCellValue().isEmpty()) {  
 					Calendar cal = Calendar.getInstance(); 
 					
-					try {
-						cal.setTime(simpleDateFormat.parse(linhaRecebida.getCell(19).getStringCellValue()));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-					
+//					cal.setTime(linhaRecebida.getCell(19).getDateCellValue());
 					recebidoSouSuperSeguroCobranca.setDtNascCobr(cal);
 				}
 			
@@ -114,16 +145,12 @@ public class StringParaArrayImpl implements StringParaArray{
 				recebidoSouSuperSeguroCobranca.setEmail(linhaRecebida.getCell(30).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(30).getStringCellValue());	
 				
 				if(!linhaRecebida.getCell(31).getStringCellValue().isEmpty()) { 
-					SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy"); 
 					Calendar cal = Calendar.getInstance(); 
-					
-					try {
-						cal.setTime(simpleDateFormat.parse(linhaRecebida.getCell(31).getStringCellValue()));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
+//					cal.setTime(linhaRecebida.getCell(31).getDateCellValue());
+					recebidoSouSuperSeguroCobranca.setDataInicioCobr(cal);
 				}
 							
+				
 				
 				RecebidoSouSuperSeguroPagamentoMensalidade recebidoSouSuperSeguroMensalidade = new RecebidoSouSuperSeguroPagamentoMensalidade();
 				recebidoSouSuperSeguroMensalidade.setNroBanco(linhaRecebida.getCell(32).getStringCellValue().isEmpty() ? null : verificarEnums.verificarBanco(linhaRecebida.getCell(32).getStringCellValue()));

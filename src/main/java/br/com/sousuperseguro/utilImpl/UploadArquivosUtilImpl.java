@@ -110,7 +110,6 @@ public class UploadArquivosUtilImpl implements UploadArquivosUtil {
 				
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -155,6 +154,9 @@ public class UploadArquivosUtilImpl implements UploadArquivosUtil {
 				
 				propostaRepository.insert(propostaNova);
 				
+				BoletoViewer boleto = boletoBancario.gerarBoleto(ultimoRecebido);
+				envioDeEmail.enviarEmailComBoleto(ultimoRecebido, boleto);
+				
 				uploadDeArquivosRepository.delete(retornoNovaEntidade);
 				
 			} catch(Exception e) {
@@ -162,7 +164,6 @@ public class UploadArquivosUtilImpl implements UploadArquivosUtil {
 				RecebidoSouSuperSeguroRecusada retornoRecusado = stringParaArray.paraRecusados(retorno);
 									
 				uploadDeArquivosRepository.insertDados(retornoRecusado);
-				
 				uploadDeArquivosRepository.delete(retornoNovaEntidade);
 			}
 		}

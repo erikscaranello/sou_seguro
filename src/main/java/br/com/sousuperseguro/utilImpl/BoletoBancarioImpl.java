@@ -1,5 +1,10 @@
 package br.com.sousuperseguro.utilImpl;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -19,19 +24,28 @@ import org.jrimum.domkee.financeiro.banco.febraban.Sacado;
 import org.jrimum.domkee.financeiro.banco.febraban.TipoDeTitulo;
 import org.jrimum.domkee.financeiro.banco.febraban.Titulo;
 import org.jrimum.domkee.financeiro.banco.febraban.Titulo.Aceite;
+import org.springframework.stereotype.Component;
 
 import br.com.sousuperseguro.entities.RecebidoSouSuperSeguro;
 import br.com.sousuperseguro.util.BoletoBancario;
 
+@Component
 public class BoletoBancarioImpl implements BoletoBancario {
 
 	@Override
 	public BoletoViewer gerarBoleto(RecebidoSouSuperSeguro dadosDoCliente) {
 		
+		Cedente cedente = new Cedente("Ville Alpha Corretora de Seguros Ltda.", "06.235.443/0001-48");
+		String cpf = dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getCpfTitCorrente();
 		
-		//?????
-		Cedente cedente = new Cedente("PROJETO JRimum", "00.000.208/0001-00");
-		Sacado sacado = new Sacado(dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getNmTitCorrente(), "222.222.222-22");
+		
+		String cpfPrimeiro = cpf.substring(0, 3);
+		String cpfSegundo = cpf.substring(3, 6);
+		String cpfTerceiro = cpf.substring(6, 9);
+		String cpfdigito = cpf.substring(9, 11);
+		String cpfFinal = cpfPrimeiro + "." + cpfSegundo + "." + cpfTerceiro + "-" + cpfdigito;
+		
+		Sacado sacado = new Sacado(dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getNmTitCorrente(), cpfFinal);
 		
 		
 		Endereco enderecoSac = new Endereco();
@@ -61,7 +75,7 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		Titulo titulo = new Titulo(contaBancaria, sacado, cedente);
 		
 		//???
-		titulo.setNumeroDoDocumento("123456");
+		titulo.setNumeroDoDocumento("0000001");
 		
 		//???
 		titulo.setNossoNumero("99345678912");
@@ -104,7 +118,30 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		boleto.setInstrucao8("APÓS o Vencimento, Pagável Somente na Rede X.");
 		
 		BoletoViewer boletoViewer = new BoletoViewer(boleto);
-
+		
+		
+		File file = new File("C:\\Users\\Erik Scaranello\\Documents\\boleto.pdf"); //Criamos um nome para o arquivo  
+		BufferedOutputStream bos = null;
+		try {
+			bos = new BufferedOutputStream(new FileOutputStream(file));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} //Criamos o arquivo  
+		try {
+			bos.write(boletoViewer.getPdfAsByteArray());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} //Gravamos os bytes l�  
+		try {
+			bos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		return boletoViewer;
 		
 	}
