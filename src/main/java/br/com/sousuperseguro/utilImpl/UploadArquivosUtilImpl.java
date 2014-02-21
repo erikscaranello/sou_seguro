@@ -45,9 +45,6 @@ public class UploadArquivosUtilImpl implements UploadArquivosUtil {
 	PropostaService propostaService;
 	
 	@Autowired
-	MontagemDeArquivo mostangemDeArquivo;
-	
-	@Autowired
 	BoletoBancario boletoBancario;
 	
 	@Autowired
@@ -95,11 +92,15 @@ public class UploadArquivosUtilImpl implements UploadArquivosUtil {
 							propostaNova.setIdRecebidoSouSuperSeguro(ultimoRecebido);
 							
 							propostaRepository.insert(propostaNova);
-							BoletoViewer boleto = boletoBancario.gerarBoleto(retorno);
 							
-							envioDeEmail.enviarEmailComBoleto(retorno, boleto);
+							if(retorno.getRecebidoSouSuperSeguroPagamentoMensalidade().getTpCobr().getTipoCobranca() == 1) {
+								BoletoViewer boleto = boletoBancario.gerarBoleto(retorno);
+								envioDeEmail.enviarEmailComBoleto(retorno, boleto);
+							}
 							
 						} catch(Exception e) {
+							
+							e.printStackTrace();
 							
 							RecebidoSouSuperSeguroRecusada retornoRecusado = stringParaArray.paraRecusados(retorno);
 												
@@ -111,11 +112,7 @@ public class UploadArquivosUtilImpl implements UploadArquivosUtil {
 				
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
-			
-			
-//			System.out.println(mostangemDeArquivo.montagemCTipoRegistro());
-			
+			}			
 		}
 	}
 

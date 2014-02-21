@@ -24,19 +24,31 @@ import org.jrimum.domkee.financeiro.banco.febraban.Sacado;
 import org.jrimum.domkee.financeiro.banco.febraban.TipoDeTitulo;
 import org.jrimum.domkee.financeiro.banco.febraban.Titulo;
 import org.jrimum.domkee.financeiro.banco.febraban.Titulo.Aceite;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.sousuperseguro.entities.RecebidoSouSuperSeguro;
 import br.com.sousuperseguro.util.BoletoBancario;
+import br.com.sousuperseguro.util.NossoNumero;
 
 @Component
 public class BoletoBancarioImpl implements BoletoBancario {
+	
+	@Autowired
+	NossoNumero nossoNumero;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public BoletoViewer gerarBoleto(RecebidoSouSuperSeguro dadosDoCliente) {
 		
-		Cedente cedente = new Cedente("Ville Alpha Corretora de Seguros Ltda.", "06.235.443/0001-48");
+		Cedente cedente = new Cedente("OdontoPrev S.A.", "58.119.199/0001-51");
 		String cpf = dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getCpfTitCorrente();
+		
+		cpf = cpf.replace(" ", "");
+		
+ 		while(cpf.length() < 11) {
+ 			cpf = "0" + cpf;
+ 		}
 		
 		
 		String cpfPrimeiro = cpf.substring(0, 3);
@@ -59,42 +71,41 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		enderecoSac.setNumero(dadosDoCliente.getRecebidoSouSuperSeguroCobranca().getrNumeroCobr());
 		sacado.addEndereco(enderecoSac);
 
-		ContaBancaria contaBancaria = new ContaBancaria(banco(dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getNroBanco().getBanco()));
-		
-		contaBancaria.setAgencia(
-			new Agencia(Integer.parseInt(dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getNroAgencia()), dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getDvAgencia())
-		);
-		contaBancaria.setNumeroDaConta(
-				new NumeroDaConta(Integer.parseInt(dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getcCorrente()), dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getDvConta())
-		);
-		
-		///???
-		contaBancaria.setCarteira(new Carteira(30));
+		ContaBancaria contaBancaria = new ContaBancaria(banco(237));
+		contaBancaria.setAgencia(new Agencia(2842, "8"));
+		contaBancaria.setNumeroDaConta(new NumeroDaConta(8490, "5"));
+		contaBancaria.setCarteira(new Carteira(06));
 		
 		
 		Titulo titulo = new Titulo(contaBancaria, sacado, cedente);
-		
 		//???
 		titulo.setNumeroDoDocumento("0000001");
-		
+
 		//???
-		titulo.setNossoNumero("99345678912");
+		titulo.setNossoNumero(nossoNumero.gerarNossoNumero(dadosDoCliente.getNroProposta()));
 		
 		//???
 		titulo.setDigitoDoNossoNumero("5");
 		
+		Date data = new Date();
+		
 		//???
 		titulo.setValor(BigDecimal.valueOf(0.23));
-		titulo.setDataDoDocumento(new Date());
+		titulo.setDataDoDocumento(data);
 		
-		//date + 3
-		titulo.setDataDoVencimento(new Date());
+		int dataMais3diasInteger = data.getDate() + 3;
+		
+		Date dataMais3Dias = new Date();
+		dataMais3Dias.setDate(dataMais3diasInteger);
+		titulo.setDataDoVencimento(dataMais3Dias);
+		
+		
 		
 		titulo.setTipoDeDocumento(TipoDeTitulo.DM_DUPLICATA_MERCANTIL);
 		titulo.setAceite(Aceite.A);
 		
 		//???
-		titulo.setDesconto(new BigDecimal(0.05));
+		titulo.setDesconto(new BigDecimal(0.00));
 		titulo.setDeducao(BigDecimal.ZERO);
 		titulo.setMora(BigDecimal.ZERO);
 		titulo.setAcrecimo(BigDecimal.ZERO);
@@ -104,23 +115,19 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		
 		Boleto boleto = new Boleto(titulo);
         
-		boleto.setLocalPagamento("Pagável preferencialmente na Rede X ou em " +
+		boleto.setLocalPagamento("Pagável preferencialmente no Banco Bradesco ou em " +
 		                "qualquer Banco até o Vencimento.");
-		boleto.setInstrucaoAoSacado("Senhor sacado, sabemos sim que o valor " +
-		                "cobrado não é o esperado, aproveite o DESCONTÃO!");
-		boleto.setInstrucao1("PARA PAGAMENTO 1 até Hoje não cobrar nada!");
-		boleto.setInstrucao2("PARA PAGAMENTO 2 até Amanhã Não cobre!");
-		boleto.setInstrucao3("PARA PAGAMENTO 3 até Depois de amanhã, OK, não cobre.");
-		boleto.setInstrucao4("PARA PAGAMENTO 4 até 04/xx/xxxx de 4 dias atrás COBRAR O VALOR DE: R$ 01,00");
-		boleto.setInstrucao5("PARA PAGAMENTO 5 até 05/xx/xxxx COBRAR O VALOR DE: R$ 02,00");
-		boleto.setInstrucao6("PARA PAGAMENTO 6 até 06/xx/xxxx COBRAR O VALOR DE: R$ 03,00");
-		boleto.setInstrucao7("PARA PAGAMENTO 7 até xx/xx/xxxx COBRAR O VALOR QUE VOCÊ QUISER!");
-		boleto.setInstrucao8("APÓS o Vencimento, Pagável Somente na Rede X.");
+
+		
+		boleto.setInstrucao1("ATENÇÃO SR. CAIXA: Não receber se o campo Pagador não estiver preenchido");
+		
+		
+		boleto.setInstrucao8("APÓS o Vencimento, Pagável Somente no Banco Bradesco.");
 		
 		BoletoViewer boletoViewer = new BoletoViewer(boleto);
 		
 		
-		File file = new File("C:\\Users\\Erik Scaranello\\Documents\\boleto.pdf"); //Criamos um nome para o arquivo  
+		File file = new File("C:\\Users\\Pc6\\Documents\\boleto.pdf"); //Criamos um nome para o arquivo  
 		BufferedOutputStream bos = null;
 		try {
 			bos = new BufferedOutputStream(new FileOutputStream(file));
@@ -133,7 +140,7 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} //Gravamos os bytes l�  
+		} //Gravamos os bytes l�  
 		try {
 			bos.close();
 		} catch (IOException e) {

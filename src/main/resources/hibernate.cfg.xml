@@ -13,6 +13,7 @@
 <!--   <property name="hibernate.hbm2ddl.auto">update</property>	 -->
 	
   <mapping class="br.com.sousuperseguro.entities.Users"/>
+  <mapping class="br.com.sousuperseguro.entities.ArquivosEnvio"/>
   <mapping class="br.com.sousuperseguro.entities.InfosPessoais"/>
   <mapping class="br.com.sousuperseguro.entities.Role"/>
   <mapping class="br.com.sousuperseguro.entities.Proposta"/>

@@ -22,17 +22,20 @@ public class EnvioDeEmailImpl implements EnvioDeEmail {
 	public void enviarEmail(Users user) {
 		
 		Email email = new SimpleEmail();
-		email.setHostName("smtp.googlemail.com");
-		email.setSmtpPort(465);
-		email.setAuthenticator(new DefaultAuthenticator("erikscaranello@gmail.com", "natale0506"));
+		email.setHostName("smtp.sousuperseguro.kinghost.net");
+		email.setSmtpPort(587);
+		email.setAuthenticator(new DefaultAuthenticator("nao_responder@sousuperseguro.kinghost.net", "35jkg6w1"));
 		email.setSSLOnConnect(true);
 		try {
-			email.setFrom("erikscaranello@gmail.com");
+			email.setFrom("nao_responder@sousuperseguro.kinghost.net");
 		} catch (EmailException e) {
 			e.printStackTrace();
 		}
 		
-		email.setSubject("TestMail");
+		//senha
+		//35jkg6w1
+		
+		email.setSubject("Olá " + user.getInfosPessoais().getNome() + " " + user.getInfosPessoais().getSobrenome());
 		
 		try {
 		
@@ -67,15 +70,15 @@ public class EnvioDeEmailImpl implements EnvioDeEmail {
 		
 		
 		MultiPartEmail  email = new MultiPartEmail ();
-		email.setHostName("smtp.googlemail.com");
-		email.setSmtpPort(465);
-		email.setAuthenticator(new DefaultAuthenticator("erikscaranello@gmail.com", "natale0506"));
+		email.setHostName("smtp.sousuperseguro.kinghost.net");
+		email.setSmtpPort(587);
+		email.setAuthenticator(new DefaultAuthenticator("nao_responder@sousuperseguro.kinghost.net", "35jkg6w1"));
 		email.setSSLOnConnect(true);
-		email.setSubject("Email de verificacao");
+		email.setSubject("Boleto de Pagamento, Sou Super Seguro Corretora");
 		
 		try {
-			email.setFrom("erikscaranello@gmail.com");
-			email.setMsg("This is a test mail ... :-)");
+			email.setFrom("nao_responder@sousuperseguro.kinghost.net");
+			email.setMsg("Olá, este é um e-mail da Sou Super Seguro Corretora com o seu boleto.");
 			email.addTo(cliente.getRecebidoSouSuperSeguroCobranca().getEmail());
 			
 			email.attach(new ByteArrayDataSource(boleto.getPdfAsByteArray(), "application/pdf"),

@@ -5,11 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.sousuperseguro.entities.ArquivosEnvio;
 import br.com.sousuperseguro.entities.RecebidoSouSuperSeguro;
-import br.com.sousuperseguro.repositoryImpl.ArquivosEnvioRepositoryImpl;
+import br.com.sousuperseguro.service.ArquivosEnvioService;
 import br.com.sousuperseguro.util.MontagemDeArquivo;
 
 
@@ -17,13 +18,13 @@ import br.com.sousuperseguro.util.MontagemDeArquivo;
 public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 
 	
-	private int matricula = 1;
-//	@Autowired
-//	ArquivosEnvioService arquivosEnvioService;
+	@Autowired
+	ArquivosEnvioService arquivosEnvioService;
 	
 	
 	@Override
-	public String montagemCTipoRegistro() {
+	public String montarArquivoDeEnvio(List<RecebidoSouSuperSeguro> listaRecebidos) {
+		
 		
 		String header = "";
 
@@ -32,8 +33,6 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 		header = header + "SUPERSEGURO                                       ";
 
 		header = header + "ODONTOPREV                                        ";
-
-		ArquivosEnvioRepositoryImpl arquivosEnvioService = new ArquivosEnvioRepositoryImpl();
 		
 		ArquivosEnvio ultimoarquivo = arquivosEnvioService.obterUltimoArquivoDeEnvio();
 
@@ -73,10 +72,7 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 
 		header = header + filler;
 
-		List<RecebidoSouSuperSeguro> listaRecebidos = arquivosEnvioService
-				.selecionarRecebidosSuperSeguro();
-
-		
+				
 		
 		header = header + System.getProperty("line.separator"); 
 		
@@ -93,7 +89,7 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 			stringRetornoArquivo = stringRetornoArquivo
 					+ recebido.getNroProposta();
 
-			String matriculaString = String.valueOf(matricula);
+			String matriculaString = String.valueOf(recebido.getId());
 			int contageMatricula = 20 - matriculaString.length();
 			
 			for (int j = 0; j < contageMatricula; j++) {
@@ -103,10 +99,8 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 			stringRetornoArquivo = stringRetornoArquivo + matriculaString;
 			
 			
-			stringRetornoArquivo = stringRetornoArquivo
-					+ recebido.getcParentesco().getParentesco();
+			stringRetornoArquivo = recebido.getcParentesco() != null ? (stringRetornoArquivo + recebido.getcParentesco().getParentesco()) : stringRetornoArquivo + "  ";
 			
-			matricula++;
 			
 			stringRetornoArquivo = stringRetornoArquivo
 					+ acertoDeCamposFor(recebido.getNome(), 70);
@@ -442,14 +436,14 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 			}
 			
 			
-			stringRetornoArquivo = stringRetornoArquivo + recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getcParentescoCobr().getParentesco();
-						
-		
+			stringRetornoArquivo = recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getcParentescoCobr() != null ? 
+					stringRetornoArquivo + recebido.getRecebidoSouSuperSeguroPagamentoMensalidade().getcParentescoCobr().getParentesco() : stringRetornoArquivo + "  ";
+					
 			
 			//Tp Negociacao
 			stringRetornoArquivo = stringRetornoArquivo + "1";
 			
-			//Tp comissão
+			//Tp comissao
 			stringRetornoArquivo = stringRetornoArquivo + "00";
 			
 		
@@ -476,12 +470,8 @@ public class MontagemDeArquivoImpl implements MontagemDeArquivo {
 		for(int i = 0; i < 1140 ; i++) {
 			trailer = trailer + " ";
 		}
-		
-		
-		System.out.println(header + stringRetornoArquivo + trailer);
-		
 	
-		return null;
+		return header + stringRetornoArquivo + trailer;
 	}
 
 	

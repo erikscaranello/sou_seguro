@@ -32,6 +32,7 @@ import br.com.sousuperseguro.service.HomeService;
 import br.com.sousuperseguro.service.Sessoes;
 import br.com.sousuperseguro.service.UploadDeArquivosService;
 import br.com.sousuperseguro.service.VerificarEnums;
+import br.com.sousuperseguro.util.Ftp;
 import br.com.sousuperseguro.utilImpl.MontagemDeArquivoImpl;
 
 @Controller
@@ -52,16 +53,14 @@ public class HomeController {
 	@Autowired
 	UploadDeArquivosService uploadDeArquivos;
 	
+	@Autowired
+	Ftp ftp;
+	
 	
 	@RequestMapping("/")
 	public ModelAndView index() {
-			
-		MontagemDeArquivoImpl repository = new MontagemDeArquivoImpl(); 
 		
-		repository.montagemCTipoRegistro();	
-		
-		
-		
+		ftp.enviarArquivosFtpCliente();
 		
 		ModelAndView modelAndView = new ModelAndView("home/index");
 		

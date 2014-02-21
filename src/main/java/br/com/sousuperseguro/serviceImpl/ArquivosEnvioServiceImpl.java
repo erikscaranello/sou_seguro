@@ -30,4 +30,13 @@ public class ArquivosEnvioServiceImpl implements ArquivosEnvioService{
 	
 	}
 
+	@Override
+	public void insertNovoArquivo(ArquivosEnvio arquivoEnvioInsert) {
+		arquivosEnvioRepository.insertNovoArquivo(arquivoEnvioInsert);
+	}
+
+	@Override
+	public void insertRecebidoEnviado(RecebidoSouSuperSeguro recebidoEnviado) {
+		arquivosEnvioRepository.insertRecebidoEnviado(recebidoEnviado);
+	}
 }

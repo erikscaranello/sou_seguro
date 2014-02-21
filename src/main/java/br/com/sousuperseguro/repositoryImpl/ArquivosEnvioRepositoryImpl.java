@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import br.com.sousuperseguro.connection.CriarConexao;
@@ -37,6 +38,7 @@ public class ArquivosEnvioRepositoryImpl implements ArquivosEnvioRepository {
 			tx = session.beginTransaction();
 			Criteria criteria = this.session.createCriteria(ArquivosEnvio.class); 
 			criteria.addOrder(Order.desc("id"));
+			criteria.setMaxResults(1);
 			ArquivosEnvio retorno = (ArquivosEnvio) criteria.uniqueResult();
 			
 			tx.commit();
@@ -64,6 +66,7 @@ public class ArquivosEnvioRepositoryImpl implements ArquivosEnvioRepository {
 			tx = session.beginTransaction();
 			Criteria criteria = this.session.createCriteria(RecebidoSouSuperSeguro.class); 
 			
+			criteria.add(Restrictions.eq("enviado", false));
 			List<RecebidoSouSuperSeguro> retorno = criteria.list();
 			
 			tx.commit();	
@@ -77,6 +80,56 @@ public class ArquivosEnvioRepositoryImpl implements ArquivosEnvioRepository {
 		}
 		
 		
+	}
+
+	
+	
+	@Override
+	public void insertNovoArquivo(ArquivosEnvio arquivoEnvioInsert) {
+		this.session = criarConexao.getSession();
+    	Transaction tx = null;
+    	
+    	try{
+    	
+    		tx = session.beginTransaction();
+    		session.saveOrUpdate(arquivoEnvioInsert); 
+    		tx.commit();
+    	
+    	} catch (HibernateException e) {
+    		e.printStackTrace();
+    		if (tx!=null) {
+    			tx.rollback();
+    			throw e;
+    		}
+    		
+    	} finally {
+    		session.close(); 
+    	}
+		
+	}
+
+
+
+	@Override
+	public void insertRecebidoEnviado(RecebidoSouSuperSeguro recebidoEnviado) {
+		this.session = criarConexao.getSession();
+    	Transaction tx = null;
+    	
+    	try{
+    		tx = session.beginTransaction();
+    		session.saveOrUpdate(recebidoEnviado); 
+    		tx.commit();
+    	
+    	} catch (HibernateException e) {
+    		e.printStackTrace();
+    		if (tx!=null) {
+    			tx.rollback();
+    			throw e;
+    		}
+    		
+    	} finally {
+    		session.close(); 
+    	}	
 	}
 
 }

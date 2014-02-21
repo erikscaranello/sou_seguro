@@ -11,4 +11,7 @@ public interface ArquivosEnvioService {
 
 	List<RecebidoSouSuperSeguro> selecionarRecebidosSuperSeguro();
 
+	void insertNovoArquivo(ArquivosEnvio arquivoEnvioInsert);
+	
+	void insertRecebidoEnviado(RecebidoSouSuperSeguro recebidoEnviado);
 }

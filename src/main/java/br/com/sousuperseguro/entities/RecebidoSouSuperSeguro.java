@@ -73,7 +73,7 @@ public class RecebidoSouSuperSeguro implements Serializable{
 	private String cdMatricula;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="c_parentesco", nullable=false)
+	@Column(name="c_parentesco", nullable=true)
 	private Parentesco cParentesco;
 	
 	@Column(name="nome", nullable=false, length=70)

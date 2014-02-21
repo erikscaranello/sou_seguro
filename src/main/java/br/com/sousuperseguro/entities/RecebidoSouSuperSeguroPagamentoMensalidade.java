@@ -56,7 +56,7 @@ public class RecebidoSouSuperSeguroPagamentoMensalidade implements Serializable{
 	private String cpfTitCorrente;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="c_parentesco_cobr", nullable=false, length=11)
+	@Column(name="c_parentesco_cobr", nullable=true, length=11)
 	private Parentesco cParentescoCobr;
 
 	public BigInteger getId() {

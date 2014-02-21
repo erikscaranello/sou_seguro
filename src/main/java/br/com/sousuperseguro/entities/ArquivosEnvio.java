@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Calendar;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,14 +24,27 @@ public class ArquivosEnvio implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private BigInteger id;
 	
+	@Column(name="nome_arquivo")
+	private String nomeArquivo;
+	
+	@Column(name="data_arquivo")
 	private Calendar dataArquivo;
-
+	
+	
 	public BigInteger getId() {
 		return id;
 	}
 
 	public void setId(BigInteger id) {
 		this.id = id;
+	}
+
+	public String getNomeArquivo() {
+		return nomeArquivo;
+	}
+
+	public void setNomeArquivo(String nomeArquivo) {
+		this.nomeArquivo = nomeArquivo;
 	}
 
 	public Calendar getDataArquivo() {
@@ -40,6 +54,4 @@ public class ArquivosEnvio implements Serializable {
 	public void setDataArquivo(Calendar dataArquivo) {
 		this.dataArquivo = dataArquivo;
 	}
-	
-	
 }
