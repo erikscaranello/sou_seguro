@@ -1,7 +1,6 @@
 package br.com.sousuperseguro.utilImpl;
 
 import java.math.BigInteger;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;

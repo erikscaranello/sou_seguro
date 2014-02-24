@@ -32,8 +32,6 @@ import br.com.sousuperseguro.service.HomeService;
 import br.com.sousuperseguro.service.Sessoes;
 import br.com.sousuperseguro.service.UploadDeArquivosService;
 import br.com.sousuperseguro.service.VerificarEnums;
-import br.com.sousuperseguro.util.Ftp;
-import br.com.sousuperseguro.utilImpl.MontagemDeArquivoImpl;
 
 @Controller
 public class HomeController {
@@ -52,16 +50,11 @@ public class HomeController {
 	
 	@Autowired
 	UploadDeArquivosService uploadDeArquivos;
-	
-	@Autowired
-	Ftp ftp;
-	
+		
 	
 	@RequestMapping("/")
 	public ModelAndView index() {
-		
-		ftp.enviarArquivosFtpCliente();
-		
+			
 		ModelAndView modelAndView = new ModelAndView("home/index");
 		
 		modelAndView.addObject("listaRecusada", arquivosRecusadosService.obterArquivosRecusadosLimitCinco());
@@ -384,6 +377,15 @@ public class HomeController {
 //		modelAndView.addObject("idPai", retornoNovaEntidade.getId());
 //		modelAndView.addObject("arquivoRecusado", retornoNovaEntidade.getRecebidoSouSuperSeguroPagamentoMensalidade());
 //		return modelAndView;
+	}
+	
+	
+	@RequestMapping("/acessoNegado")
+	public ModelAndView acessoNegado() {
+		
+		ModelAndView modelAndView = new ModelAndView("home/acesso_negado");
+		return modelAndView;
+		
 	}
 	
 	

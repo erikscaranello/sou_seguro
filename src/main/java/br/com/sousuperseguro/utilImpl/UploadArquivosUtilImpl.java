@@ -21,7 +21,6 @@ import br.com.sousuperseguro.repository.UploadDeArquivosRepository;
 import br.com.sousuperseguro.service.PropostaService;
 import br.com.sousuperseguro.util.BoletoBancario;
 import br.com.sousuperseguro.util.EnvioDeEmail;
-import br.com.sousuperseguro.util.MontagemDeArquivo;
 import br.com.sousuperseguro.util.Serializacao;
 import br.com.sousuperseguro.util.StringParaArray;
 import br.com.sousuperseguro.util.UploadArquivosUtil;
@@ -99,7 +98,6 @@ public class UploadArquivosUtilImpl implements UploadArquivosUtil {
 							}
 							
 						} catch(Exception e) {
-							
 							e.printStackTrace();
 							
 							RecebidoSouSuperSeguroRecusada retornoRecusado = stringParaArray.paraRecusados(retorno);

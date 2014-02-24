@@ -1,4 +1,4 @@
-package br.com.sousuperseguro.repository;
+package br.com.sousuperseguro.repositoryImpl;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -11,10 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import br.com.sousuperseguro.connection.CriarConexao;
-import br.com.sousuperseguro.entities.InfosPessoais;
-import br.com.sousuperseguro.entities.Users;
 import br.com.sousuperseguro.entities.recusadas.RecebidoSouSuperSeguroRecusada;
-import br.com.sousuperseguro.repositoryImpl.ArquivosRecusadosRepository;
 
 @Repository
 public class ArquivosRecusadosRepositoryImpl implements ArquivosRecusadosRepository {

@@ -1,10 +1,8 @@
 package br.com.sousuperseguro.utilImpl;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.net.SocketException;
 import java.util.Calendar;
@@ -76,34 +74,36 @@ public class FtpImpl implements Ftp {
                         String nomeDoArquivoFinal = nomeDoArquivo + ".#01";      
                         
                         
-                        OutputStream os = new FileOutputStream("C:\\Users\\Pc6\\Documents\\" + nomeDoArquivoFinal);
-                        OutputStreamWriter osw = new OutputStreamWriter(os);
-                        BufferedWriter bw = new BufferedWriter(osw);
-                    
-                        bw.write(retornoArquivoMontado);
+//                        OutputStream os = new FileOutputStream("C:\\Users\\Erik Scaranello\\Documents\\" + nomeDoArquivoFinal);
+//                        OutputStreamWriter osw = new OutputStreamWriter(os);
+//                        BufferedWriter bw = new BufferedWriter(osw);
+//                    
+//                        bw.write(retornoArquivoMontado);
+//                        
+//                        bw.close();
                         
-                        bw.close();
                         
-                        arquivosEnvioService.insertNovoArquivo(arquivoEnvioInsert);
-                        for(RecebidoSouSuperSeguro recebido :listaRecebidos) {
-                    		recebido.setEnviado(true);
-                    		arquivosEnvioService.insertRecebidoEnviado(recebido);
-                    	}
+//                        for(RecebidoSouSuperSeguro recebido :listaRecebidos) {
+//                    		recebido.setEnviado(true);
+//                    		arquivosEnvioService.insertRecebidoEnviado(recebido);
+//                    	}
                         
-//                        InputStream readerInputStream = new ByteArrayInputStream(retornoArquivoMontado.getBytes());
-//                                            
-//                        if(ftp.storeFile(nomeDoArquivoFinal, readerInputStream)) {
-//                        	
-//                        	for(RecebidoSouSuperSeguro recebido :listaRecebidos) {
-//                        		recebido.setEnviado(true);
-//                        		arquivosEnvioService.insertRecebidoEnviado(recebido);
-//                        	}
-//                        	
-//                        	System.out.println("Arquivo enviado");
-//                        	
-//                        } else {
-//                        	System.out.println("Erro");
-//                        }
+                        InputStream readerInputStream = new ByteArrayInputStream(retornoArquivoMontado.getBytes());
+                                            
+                        if(ftp.storeFile(nomeDoArquivoFinal, readerInputStream)) {
+                        	
+                        	arquivosEnvioService.insertNovoArquivo(arquivoEnvioInsert);
+                        	
+                        	for(RecebidoSouSuperSeguro recebido :listaRecebidos) {
+                        		recebido.setEnviado(true);
+                        		arquivosEnvioService.insertRecebidoEnviado(recebido);
+                        	}
+                        	
+                        	System.out.println("Arquivo enviado");
+                        	
+                        } else {
+                        	System.out.println("Erro");
+                        }
                         
                         ftp.disconnect();
                         
@@ -112,7 +112,7 @@ public class FtpImpl implements Ftp {
                     }
     			} else {  
                     ftp.disconnect();  
-                    System.out.println("Conexão recusada");  
+                    System.out.println("Conexao recusada");  
                     System.exit(1);  
                 }
     			
@@ -122,12 +122,8 @@ public class FtpImpl implements Ftp {
     		} catch (IOException e) {
     			
     			e.printStackTrace();
-    		}
-        	
-        	
-        }
-		
-		 
-	}
+    		}	
+        } 
+	} 
 
 }

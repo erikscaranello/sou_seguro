@@ -188,6 +188,7 @@ public class RecebidoSouSuperSeguro implements Serializable{
 	private RecebidoSouSuperSeguroDadosFinais recebidoSouSuperSeguroDadosFinais;
 	
 	private boolean enviado;
+
 	
 	public BigInteger getId() {
 		return id;

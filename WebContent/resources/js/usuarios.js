@@ -4,7 +4,7 @@ $(document).ready(function(){
 		var input = $(this);
 		
 		if(input.val().length >= 3) {
-			$.getJSON("/super_seguro/usuarios/verificar_login", { login: input.val()}, function(resultado){
+			$.getJSON("/sou_seguro/usuarios/verificar_login", { login: input.val()}, function(resultado){
 				if(resultado == true) {
 					input.css({"border-color": "#31708f", "background": "#d9edf7"});
 				} else {
@@ -31,7 +31,7 @@ $(document).ready(function(){
 		if(validadorEmail($(this).val())) {
 			
 			var input = $(this);
-			$.getJSON("/super_seguro/usuarios/verificar_email", { email: input.val()}, function(resultado){
+			$.getJSON("/sou_seguro/usuarios/verificar_email", { email: input.val()}, function(resultado){
 				if(resultado == true) {
 					input.css({"border-color": "#31708f", "background": "#d9edf7"});
 				} else {
@@ -110,7 +110,7 @@ $(document).ready(function(){
 				var password = $("input[name='password']").val();
 				var role = $("#escolhido").val();
 				
-				$.getJSON("/super_seguro/usuarios/novo_usuario", { nome:nome, sobrenome : sobrenome,
+				$.getJSON("/sou_seguro/usuarios/novo_usuario", { nome:nome, sobrenome : sobrenome,
 					email : email, username : login, password: password, role: role}, function(retorno){
 						if(retorno == true) {
 							$('body').append('<div id="dialog" title="Dados inseridos com sucesso!">'+
@@ -153,7 +153,7 @@ $(document).ready(function(){
 function alterar(dom) {
 	var login = $(dom).parent().children(".login").children(".get-login").text();
 	
-	$.getJSON("/super_seguro/usuarios/alterar_usuario", { username : login }, function(retorno){
+	$.getJSON("/sou_seguro/usuarios/alterar_usuario", { username : login }, function(retorno){
 		$("input[name='nome']").val(retorno.infosPessoais.nome);
 		$("input[name='sobrenome']").val(retorno.infosPessoais.sobrenome);
 		$("input[name='email']").val(retorno.infosPessoais.email);
@@ -188,7 +188,7 @@ function remover (dom) {
 	      modal: true,
 	      buttons: {
 	        "Excluir registro": function() {
-	        	$.getJSON("/super_seguro/usuarios/excluir_usuario", { username : login }, function(retorno){
+	        	$.getJSON("/sou_seguro/usuarios/excluir_usuario", { username : login }, function(retorno){
 						if(retorno == true) {
 							$("#dialog-confirm").dialog( "close" );
 							

@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/home.css" />">
 <script type="text/javascript" src="<c:url value="/resources/js/home.js" />"></script>
 <%-- <script type="text/javascript" src="<c:url value="/resources/js/pegar_enums.js" />"></script>	 --%>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.maskedinput-1.1.4.pack.js" />"></script>
 	
 	<form class="form-inline" name="formulario" method="post" action="<c:url value="/receber_alterar_dados" />">
 	
@@ -18,11 +19,11 @@
 				<h3 class="panel-title">Movimentação de Associados</h3>
 			</div>
 			<div class="panel-body"> 
-				<div class="form-group margin-um-por-cento">
-				   	<p>Contrato</p>
-				   	<input type="text" class="form-control obrigatorio" name="contrato" value="${arquivoRecusado.contrato}">
-					<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
-				</div>
+<!-- 				<div class="form-group margin-um-por-cento"> -->
+<!-- 				   	<p>Contrato</p> -->
+<%-- 				   	<input type="text" class="form-control obrigatorio" name="contrato" value="${arquivoRecusado.contrato}"> --%>
+<!-- 					<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span> -->
+<!-- 				</div> -->
 				
 				<input type="hidden" class="form-control obrigatorio" name="id" value="${arquivoRecusado.id}">
 	
@@ -47,17 +48,17 @@
 					</select>
 				</div>
 				
-				<div class="form-group margin-um-por-cento">
-				   	<p>Número da proposta</p>
-				   	<input type="text" class="form-control obrigatorio" name="nroProposta" value="${arquivoRecusado.nroProposta}">
-					<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-				</div>
+<!-- 				<div class="form-group margin-um-por-cento"> -->
+<!-- 				   	<p>Número da proposta</p> -->
+<%-- 				   	<input type="text" class="form-control obrigatorio" name="nroProposta" value="${arquivoRecusado.nroProposta}"> --%>
+<!-- 					<span class="glyphicon glyphicon-ok form-control-feedback"></span> -->
+<!-- 				</div> -->
 				
-				<div class="form-group margin-um-por-cento">
-				   	<p>Matrícula</p>
-				   	<input type="text" class="form-control obrigatorio" name="cdMatricula" value="${arquivoRecusado.cdMatricula}">
-					<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
-				</div>
+<!-- 				<div class="form-group margin-um-por-cento"> -->
+<!-- 				   	<p>Matrícula</p> -->
+<%-- 				   	<input type="text" class="form-control obrigatorio" name="cdMatricula" value="${arquivoRecusado.cdMatricula}"> --%>
+<!-- 					<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span> -->
+<!-- 				</div> -->
 				
 				<div class="form-group margin-um-por-cento margin-bottom-ajuste">
 				   	<p>Parentesco</p>
@@ -108,7 +109,7 @@
 				
 				<div class="form-group margin-um-por-cento">
 				   	<p>CPF</p>
-				   	<input type="text" class="form-control obrigatorio" name="cpf" value="${arquivoRecusado.cpf}">
+				   	<input type="text" class="form-control obrigatorio cpf" name="cpf" value="${arquivoRecusado.cpf}">
 					<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
 				</div>
 				

@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	
-	$.getJSON("/super_seguro/verificar_admin", function(resultado){
+	$.getJSON("/sou_seguro/verificar_admin", function(resultado){
 		if(resultado == true) {
 			$('#usuarios').css("display", "block");
 		} else {

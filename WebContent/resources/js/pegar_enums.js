@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$.getJSON("/super_seguro/status", function(resultado){
+	$.getJSON("/sou_seguro/status", function(resultado){
 		
 		$(resultado).each(function(){
 			var string = new String($(this)[0]);

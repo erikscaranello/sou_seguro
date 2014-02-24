@@ -7,7 +7,8 @@
 <c:import url="../layout/header.jsp"/>
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/home.css" />">
-<script type="text/javascript" src="<c:url value="/resources/js/home.js" />"></script>	
+<script type="text/javascript" src="<c:url value="/resources/js/home.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.maskedinput-1.1.4.pack.js" />"></script>
 	
 	<form class="form-inline" name="formulario" method="post" action="<c:url value="/receber_alterar_dados_passo3" />">
 		
@@ -71,7 +72,7 @@
 				
 				<div class="form-group margin-um-por-cento">
 				   	<p>CPF do titular da conta</p>
-				   	<input type="text" class="form-control obrigatorio" name="cpfTitCorrente" value="${arquivoRecusado.cpfTitCorrente}">
+				   	<input type="text" class="form-control obrigatorio cpf" name="cpfTitCorrente" value="${arquivoRecusado.cpfTitCorrente}">
 					<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
 				</div>
 				

@@ -32,7 +32,7 @@ public class UploadDeArquivosRepositoryImpl implements UploadDeArquivosRepositor
     	try{
     	
     		tx = session.beginTransaction();
-    		session.save(infosContratante); 
+    		session.saveOrUpdate(infosContratante); 
     		tx.commit();
     	
     	} catch (HibernateException e) {

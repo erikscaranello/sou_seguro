@@ -1,10 +1,5 @@
 package br.com.sousuperseguro.utilImpl;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -27,19 +22,26 @@ import org.jrimum.domkee.financeiro.banco.febraban.Titulo.Aceite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.com.sousuperseguro.entities.NumeroDocumento;
 import br.com.sousuperseguro.entities.RecebidoSouSuperSeguro;
+import br.com.sousuperseguro.service.NumeroDocumentoService;
 import br.com.sousuperseguro.util.BoletoBancario;
 import br.com.sousuperseguro.util.NossoNumero;
+
 
 @Component
 public class BoletoBancarioImpl implements BoletoBancario {
 	
 	@Autowired
 	NossoNumero nossoNumero;
+	
+	@Autowired
+	NumeroDocumentoService numeroDocumentoService;
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public BoletoViewer gerarBoleto(RecebidoSouSuperSeguro dadosDoCliente) {
+		
 		
 		Cedente cedente = new Cedente("OdontoPrev S.A.", "58.119.199/0001-51");
 		String cpf = dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getCpfTitCorrente();
@@ -79,18 +81,36 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		
 		Titulo titulo = new Titulo(contaBancaria, sacado, cedente);
 		//???
-		titulo.setNumeroDoDocumento("0000001");
-
-		//???
-		titulo.setNossoNumero(nossoNumero.gerarNossoNumero(dadosDoCliente.getNroProposta()));
 		
-		//???
-		titulo.setDigitoDoNossoNumero("5");
+		
+		
+		String idNumeroDocumento = dadosDoCliente.getId().toString();
+		
+
+		for(int i = idNumeroDocumento.length(); i <= 9; i++){
+			idNumeroDocumento = "0" + idNumeroDocumento;
+		}
+		
+		titulo.setNumeroDoDocumento(idNumeroDocumento);
+		
+		String[] arrayNossoNumero = nossoNumero.gerarNossoNumero(dadosDoCliente.getId(), "06");
+		
+
+		
+		NumeroDocumento numeroDocumento = new NumeroDocumento();
+		numeroDocumento.setNumeroDocumento(idNumeroDocumento);
+		numeroDocumento.setNossoNumero(arrayNossoNumero[1] + "-" + arrayNossoNumero[2]);
+		numeroDocumento.setIdRecebidoSouSuperSeguro(dadosDoCliente);
+		numeroDocumentoService.insertNumeroDocumento(numeroDocumento);
+		
+		
+		titulo.setNossoNumero(arrayNossoNumero[1]);
+		titulo.setDigitoDoNossoNumero(arrayNossoNumero[2]);
 		
 		Date data = new Date();
 		
 		//???
-		titulo.setValor(BigDecimal.valueOf(0.23));
+		titulo.setValor(BigDecimal.valueOf(10.00));
 		titulo.setDataDoDocumento(data);
 		
 		int dataMais3diasInteger = data.getDate() + 3;
@@ -115,38 +135,38 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		
 		Boleto boleto = new Boleto(titulo);
         
-		boleto.setLocalPagamento("PagÃ¡vel preferencialmente no Banco Bradesco ou em " +
-		                "qualquer Banco atÃ© o Vencimento.");
+		boleto.setLocalPagamento("Pagável preferencialmente no Banco Bradesco ou em " +
+		                "qualquer Banco até o Vencimento.");
 
 		
-		boleto.setInstrucao1("ATENÃ‡ÃƒO SR. CAIXA: NÃ£o receber se o campo Pagador nÃ£o estiver preenchido");
+		boleto.setInstrucao1("ATENÇÃO SR. CAIXA: Não receber se o campo Pagador não estiver preenchido");
 		
 		
-		boleto.setInstrucao8("APÃ“S o Vencimento, PagÃ¡vel Somente no Banco Bradesco.");
+		boleto.setInstrucao8("APÓS o Vencimento, Pagável Somente no Banco Bradesco.");
 		
 		BoletoViewer boletoViewer = new BoletoViewer(boleto);
 		
 		
-		File file = new File("C:\\Users\\Pc6\\Documents\\boleto.pdf"); //Criamos um nome para o arquivo  
-		BufferedOutputStream bos = null;
-		try {
-			bos = new BufferedOutputStream(new FileOutputStream(file));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} //Criamos o arquivo  
-		try {
-			bos.write(boletoViewer.getPdfAsByteArray());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} //Gravamos os bytes lï¿½  
-		try {
-			bos.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		File file = new File("C:\\Users\\Erik Scaranello\\Documents\\boleto.pdf"); //Criamos um nome para o arquivo  
+//		BufferedOutputStream bos = null;
+//		try {
+//			bos = new BufferedOutputStream(new FileOutputStream(file));
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} //Criamos o arquivo  
+//		try {
+//			bos.write(boletoViewer.getPdfAsByteArray());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} //Gravamos os bytes lï¿½  
+//		try {
+//			bos.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		
 		return boletoViewer;
