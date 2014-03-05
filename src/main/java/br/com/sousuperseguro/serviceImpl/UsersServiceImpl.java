@@ -32,6 +32,10 @@ public class UsersServiceImpl implements UsersService{
 		if (user == null) {
 			return false;
 		} else {
+			
+			user.setRepassword(true);
+			userRepository.updateUser(user);
+			
 			envioDeEmail.enviarEmail(user);
 			return true;
 		}
@@ -89,7 +93,7 @@ public class UsersServiceImpl implements UsersService{
 		if(userExistente != null) {
 			user.setId(userExistente.getId());
 			
-			if(user.getRole().getAuthority().isEmpty()) {
+			if(user.getRole().getAuthority() == null || user.getRole().getAuthority().isEmpty()) {
 				user.setRole(userExistente.getRole());
 			} else {
 				Role role = userRepository.selecionarRolePorAutoridade(user.getRole().getAuthority());
@@ -99,6 +103,7 @@ public class UsersServiceImpl implements UsersService{
 			user.getInfosPessoais().setId(userExistente.getInfosPessoais().getId());
 		} 
 		
+		user.setRepassword(false);
 		return userRepository.inserirUser(user);
 	}
 
@@ -122,4 +127,33 @@ public class UsersServiceImpl implements UsersService{
 		
 		return userRepository.verificarUsername(username);
 	}
+
+
+	@Override
+	public boolean verificarRecolocacaoDeSenha(String email) {
+		if(email.isEmpty() || email == null ){
+			return false;
+		} 
+		
+		Users user = userRepository.verificarEmail(email);
+		
+		if (user == null) {
+			return false;
+		} else {
+			
+			if(user.getRepassword() != true) {
+				return false;
+			} else {
+				return true;
+			}
+			
+		}
+	}
+
+
+	@Override
+	public Users obterUserporEmail(String email) {
+		return userRepository.obterUserporEmail(email);
+	}
+	
 }

@@ -23,13 +23,19 @@
 	<body>
 	
 		<header>
-			<figure>
+			<figure class="logo">
 				<a href="<c:url value="/" />"><img alt="logo" src="<c:url value="/resources/images/logo_super_seguro.jpg" />"></a>
 			</figure>
 			
+			<div class="logout">
+				<a href="<c:url value="j_spring_security_logout" />" >Logout</a>
+			</div>
+			
+			<div class="clear">
+			</div>
 			
 			<ul class="nav nav-tabs">
-  				<li id="upload_de_arquivos"><a href="<c:url value="/upload_de_arquivos" />">Fazer Upload de arquivos</a></li>
+  				<li id="upload_de_arquivos"><a href="<c:url value="/upload_de_arquivos" />">Fazer upload de arquivos</a></li>
   				<li id="correcao_de_arquivos"><a href="<c:url value="/alterar_dados/0" />">Inserção de arquivo manual</a></li>
 <%--   				<li id="verificacao_de_boletos"><a href="<c:url value="/verificacao_de_boletos" />">Verificação de boletos</a></li> --%>
   				<li id="alterar_proprias_infos"><a href="<c:url value="/alterar_proprias_infos" />">Alterar suas informações</a></li>

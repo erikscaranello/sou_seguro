@@ -28,3 +28,4 @@ function validadorEmail(email) {
 	 } else
 	   return true;
 }
+

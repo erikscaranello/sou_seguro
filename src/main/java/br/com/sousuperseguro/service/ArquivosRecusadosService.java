@@ -10,5 +10,7 @@ public interface ArquivosRecusadosService {
 	List<RecebidoSouSuperSeguroRecusada> obterArquivosRecusadosLimitCinco();
 
 	RecebidoSouSuperSeguroRecusada obterArquivoRecusado(BigInteger numeroDados);
+
+	List<RecebidoSouSuperSeguroRecusada> obterArquivosRecusadosBradescoLimitCinco();
 	
 }

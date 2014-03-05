@@ -232,16 +232,3 @@ function remover (dom) {
 	
 	
 }
-
-
-function verificarPasswords() {
-	if($("input[name='confirm_password']").val() == $("input[name='password']").val()) {
-
-		$("input[name='confirm_password']").css({"border-color": "#31708f", "background": "#d9edf7"});
-		$("input[name='password']").css({"border-color": "#31708f", "background": "#d9edf7"});
-		
-	} else {
-		$("input[name='confirm_password']").css({"border-color": "#a94442", "background": "#f2dede"});
-		$("input[name='password']").css({"border-color": "#a94442", "background": "#f2dede"});
-	}
-}

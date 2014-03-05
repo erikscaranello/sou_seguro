@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -130,6 +131,34 @@ public class ArquivosEnvioRepositoryImpl implements ArquivosEnvioRepository {
     	} finally {
     		session.close(); 
     	}	
+	}
+
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ArquivosEnvio> obterListaNaoRecebidosErro() {
+		
+		this.session = criarConexao.getSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			Criteria criteria = this.session.createCriteria(ArquivosEnvio.class); 
+			criteria.add(Restrictions.eq("recebidoErro", false));
+			
+			List<ArquivosEnvio> retorno = criteria.list();
+			
+			tx.commit();
+			
+			return retorno;
+		} catch (HibernateException e) {
+			tx.rollback();
+			throw e;
+		} finally {
+			session.close();
+		}
+		
 	}
 
 }

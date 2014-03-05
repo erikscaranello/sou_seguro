@@ -15,4 +15,6 @@ public interface ArquivosEnvioRepository {
 	
 	void insertRecebidoEnviado(RecebidoSouSuperSeguro recebidoEnviado);
 
+	List<ArquivosEnvio> obterListaNaoRecebidosErro();
+
 }

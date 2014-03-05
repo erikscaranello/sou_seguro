@@ -1,4 +1,4 @@
-package br.com.sousuperseguro.repositoryImpl;
+package br.com.sousuperseguro.repository;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -10,5 +10,7 @@ public interface ArquivosRecusadosRepository {
 	List<RecebidoSouSuperSeguroRecusada> obterArquivosRecusadosLimitCinco();
 
 	RecebidoSouSuperSeguroRecusada obterArquivoRecusado(BigInteger numeroDados);
+
+	List<RecebidoSouSuperSeguroRecusada> obterArquivosRecusadosBradescoLimitCinco();
 	
 }

@@ -19,4 +19,8 @@ public interface UploadDeArquivosRepository {
 	void delete(RecebidoSouSuperSeguroRecusada retornoNovaEntidade);
 
 	RecebidoSouSuperSeguro insertDadosComSelect(RecebidoSouSuperSeguro retorno);
+	
+	RecebidoSouSuperSeguro obterRecebidoPorCpf(String cpf);
+
+	void delete(RecebidoSouSuperSeguro recebido);
 }

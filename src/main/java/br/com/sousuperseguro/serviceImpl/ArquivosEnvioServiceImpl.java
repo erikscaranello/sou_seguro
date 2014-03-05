@@ -39,4 +39,9 @@ public class ArquivosEnvioServiceImpl implements ArquivosEnvioService{
 	public void insertRecebidoEnviado(RecebidoSouSuperSeguro recebidoEnviado) {
 		arquivosEnvioRepository.insertRecebidoEnviado(recebidoEnviado);
 	}
+
+	@Override
+	public List<ArquivosEnvio> obterListaNaoRecebidosErro() {
+		return arquivosEnvioRepository.obterListaNaoRecebidosErro();
+	}
 }

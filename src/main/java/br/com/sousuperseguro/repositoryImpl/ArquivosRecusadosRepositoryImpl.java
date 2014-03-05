@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.sousuperseguro.connection.CriarConexao;
 import br.com.sousuperseguro.entities.recusadas.RecebidoSouSuperSeguroRecusada;
+import br.com.sousuperseguro.repository.ArquivosRecusadosRepository;
 
 @Repository
 public class ArquivosRecusadosRepositoryImpl implements ArquivosRecusadosRepository {
@@ -33,6 +34,7 @@ public class ArquivosRecusadosRepositoryImpl implements ArquivosRecusadosReposit
 		try {
 			tx = session.beginTransaction();
 			Criteria criteria = this.session.createCriteria(RecebidoSouSuperSeguroRecusada.class);
+			criteria.add(Restrictions.eq("recebidoBradesco", false));
 			criteria.setMaxResults(5);
 			
 			
@@ -68,6 +70,32 @@ public class ArquivosRecusadosRepositoryImpl implements ArquivosRecusadosReposit
 		} finally {
 			session.close();
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RecebidoSouSuperSeguroRecusada> obterArquivosRecusadosBradescoLimitCinco() {
+		
+		this.session = criarConexao.getSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			Criteria criteria = this.session.createCriteria(RecebidoSouSuperSeguroRecusada.class);
+			criteria.add(Restrictions.eq("recebidoBradesco", true));
+			criteria.setMaxResults(5);
+			
+			
+			List<RecebidoSouSuperSeguroRecusada> listaRetorno = criteria.list();
+			return listaRetorno;
+			
+		} catch (HibernateException e) {
+			tx.rollback();
+			throw e;
+		} finally {
+			session.close();
+		}
+		
 	}
 	
 }

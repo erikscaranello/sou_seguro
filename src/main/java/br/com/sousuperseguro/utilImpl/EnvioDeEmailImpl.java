@@ -6,6 +6,7 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 import org.jrimum.bopepo.view.BoletoViewer;
@@ -21,7 +22,7 @@ public class EnvioDeEmailImpl implements EnvioDeEmail {
 	@Override
 	public void enviarEmail(Users user) {
 		
-		Email email = new SimpleEmail();
+		HtmlEmail email = new HtmlEmail();
 		email.setHostName("smtp.sousuperseguro.kinghost.net");
 		email.setSmtpPort(587);
 		email.setAuthenticator(new DefaultAuthenticator("nao_responder@sousuperseguro.kinghost.net", "35jkg6w1"));
@@ -35,11 +36,14 @@ public class EnvioDeEmailImpl implements EnvioDeEmail {
 		//senha
 		//35jkg6w1
 		
-		email.setSubject("Olá " + user.getInfosPessoais().getNome() + " " + user.getInfosPessoais().getSobrenome());
+		email.setSubject("Recuperacao de senha sistema de integracao Sou Super Seguro - Odontoprev");
 		
 		try {
 		
-			email.setMsg("This is a test mail ... :-)");
+			email.setHtmlMsg("<html><head></head><body><p>Ola "+ user.getInfosPessoais().getNome() + " " + user.getInfosPessoais().getSobrenome() + "</p>" +
+					"<p>Acesse este link para refazer sua senha: </p>"
+					+ "<p><a href='localhost:8080/sou_seguro/recuperacao_de_senha/nova_senha?email="+ user.getInfosPessoais().getEmail() +"'>Recuperacao de senha de " + user.getInfosPessoais().getNome() + " " + user.getInfosPessoais().getSobrenome() + "</a></p>" +
+					"</body></html>");
 		
 		} catch (EmailException e) {
 			e.printStackTrace();

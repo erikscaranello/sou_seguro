@@ -12,8 +12,20 @@ header {
 	background: #F9F9F9;
 }
 
-figure {
+figure {	
 	padding: 1%;
+}
+
+.logo {
+	float: left;
+	width: 58%;
+}
+
+.logout {
+	width: 40%;
+	float: right;
+	padding: 5%;
+	text-align: right;
 }
 
 a {
@@ -33,4 +45,3 @@ a:hover {
 .clear {
 	clear:both;
 }
-

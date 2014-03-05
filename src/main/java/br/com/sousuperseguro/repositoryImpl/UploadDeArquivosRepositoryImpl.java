@@ -1,13 +1,17 @@
 package br.com.sousuperseguro.repositoryImpl;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import br.com.sousuperseguro.connection.CriarConexao;
+import br.com.sousuperseguro.entities.Proposta;
 import br.com.sousuperseguro.entities.RecebidoSouSuperSeguro;
 import br.com.sousuperseguro.entities.recusadas.RecebidoSouSuperSeguroCobrancaRecusada;
 import br.com.sousuperseguro.entities.recusadas.RecebidoSouSuperSeguroPagamentoMensalidadeRecusada;
@@ -167,6 +171,61 @@ public class UploadDeArquivosRepositoryImpl implements UploadDeArquivosRepositor
     			throw e;
     		}
     		return null;
+    		
+    	} finally {
+    		session.close(); 
+    	}
+	}
+
+	@Override
+	public RecebidoSouSuperSeguro obterRecebidoPorCpf(String cpf) {
+		
+		this.session = criarConexao.getSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			Criteria criteria = this.session.createCriteria(RecebidoSouSuperSeguro.class); 
+			
+			criteria.add(Restrictions.eq("cpf", cpf));
+			RecebidoSouSuperSeguro retorno = (RecebidoSouSuperSeguro) criteria.uniqueResult();
+			
+			tx.commit();	
+			return retorno;
+		
+		} catch (HibernateException e) {
+			tx.rollback();
+			throw e;
+		} finally {
+			session.close();
+		}
+		
+	}
+
+	@Override
+	public void delete(RecebidoSouSuperSeguro recebido) {
+		this.session = criarConexao.getSession();
+    	Transaction tx = null;
+    	
+    	try{
+    		tx = session.beginTransaction();
+    		
+    		Criteria criteria = this.session.createCriteria(Proposta.class); 
+			
+			criteria.add(Restrictions.eq("idRecebidoSouSuperSeguro", recebido));
+			Proposta retornoProposta = (Proposta) criteria.uniqueResult();
+    		
+    		
+    		session.delete(retornoProposta);
+    		session.delete(recebido); 
+    		tx.commit();
+    	
+    	} catch (HibernateException e) {
+    		e.printStackTrace();
+    		if (tx!=null) {
+    			tx.rollback();
+    			throw e;
+    		}
     		
     	} finally {
     		session.close(); 

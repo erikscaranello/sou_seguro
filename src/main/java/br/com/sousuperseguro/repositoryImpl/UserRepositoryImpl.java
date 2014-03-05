@@ -179,4 +179,51 @@ public class UserRepositoryImpl implements UserRepository{
 		
 	}
 
+
+	@Override
+	public void updateUser(Users user) {
+
+		this.session = criarConexao.getSession();
+    	Transaction tx = null;
+    	
+    	try{
+     		tx = session.beginTransaction();
+    		session.saveOrUpdate(user); 
+    		tx.commit();
+    	} catch (HibernateException e) {
+    		e.printStackTrace();
+    		if (tx!=null) {
+    			tx.rollback();
+    		}
+    		
+    	} finally {
+    		session.close(); 
+    	}	
+	}
+
+
+	@Override
+	public Users obterUserporEmail(String email) {
+		this.session = criarConexao.getSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			Criteria criteria = this.session.createCriteria(Users.class, "users"); 
+			criteria.createAlias("users.infosPessoais", "infospessoais");
+			
+			criteria.add(Restrictions.eq("infospessoais.email", email));
+			criteria.setMaxResults(1);			
+			Users retorno = (Users) criteria.uniqueResult();
+			
+			tx.commit();
+			return retorno;
+			
+		} catch (HibernateException e) {
+			tx.rollback();
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
 }

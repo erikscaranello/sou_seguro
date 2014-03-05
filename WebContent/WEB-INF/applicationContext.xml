@@ -12,11 +12,13 @@
 	
 	<http auto-config="true" access-denied-page="/acessoNegado">
 		<intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/enviar_bradesco" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/receber_bradesco" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<intercept-url pattern="/recuperacao_de_senha/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<intercept-url pattern="/**" access="ROLE_USER, ROLE_ADMIN" />
 		
 		<form-login login-page="/login" authentication-failure-url="/login?erro=1" default-target-url="/" />
-		<logout logout-success-url="/logout"/>
+		<logout logout-success-url="/"/>
 	</http>
 	
 	<authentication-manager>
@@ -35,18 +37,18 @@
 	</authentication-manager>
 
 
-<!-- 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" > -->
-<!-- 		<beans:property name="url" value="jdbc:mysql://localhost:3306/super_seguro_leitor" /> -->
-<!-- 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-<!-- 		<beans:property name="username" value="root" /> -->
-<!-- 		<beans:property name="password" value="root" /> -->
-<!-- 	</beans:bean> -->
-	
 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
-		<beans:property name="url" value="jdbc:mysql://mysql.sousuperseguro.kinghost.net/sousuperseguro" />
+		<beans:property name="url" value="jdbc:mysql://localhost:3306/super_seguro_leitor" />
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<beans:property name="username" value="sousuperseguro" />
-		<beans:property name="password" value="design0506" />
+		<beans:property name="username" value="root" />
+		<beans:property name="password" value="root" />
 	</beans:bean>
+	
+<!-- 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" > -->
+<!-- 		<beans:property name="url" value="jdbc:mysql://mysql.sousuperseguro.kinghost.net/sousuperseguro" /> -->
+<!-- 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+<!-- 		<beans:property name="username" value="sousuperseguro" /> -->
+<!-- 		<beans:property name="password" value="design0506" /> -->
+<!-- 	</beans:bean> -->
 	
 </beans:beans>	

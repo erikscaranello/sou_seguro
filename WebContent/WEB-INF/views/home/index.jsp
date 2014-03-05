@@ -30,11 +30,12 @@
 		<h3 class="panel-title">Dados recusados do bradesco</h3>
 	</div>
 	<div class="panel-body">
-		<!-- 			<p>dado 1</p> -->
-		<!-- 			<p>dado 2</p> -->
-		<!-- 			<p>dado 3</p> -->
-		<!-- 			<p>dado 4</p> -->
-		<!-- 			<p>dado 5</p> -->
+		<c:forEach items="${listaRecusadaBradesco}" var="recusadoBradesco">
+			<a href="<c:url value="alterar_dados/${recusadoBradesco.id}" />">
+				<p class="clicar-para-alterar">${recusadoBradesco.nome}-
+					${recusadoBradesco.cSexo} - ${recusadoBradesco.cidadeRes}</p>
+			</a>
+		</c:forEach>
 	</div>
 </div>
 

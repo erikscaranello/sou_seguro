@@ -18,4 +18,8 @@ public interface UserRepository {
 	boolean deleteUser(Users user);
 
 	Role selecionarRolePorAutoridade(String authority);
+
+	void updateUser(Users user);
+
+	Users obterUserporEmail(String email);
 }

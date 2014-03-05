@@ -30,6 +30,9 @@ public class ArquivosEnvio implements Serializable {
 	@Column(name="data_arquivo")
 	private Calendar dataArquivo;
 	
+	@Column(name="recebido_erro")
+	private boolean recebidoErro;
+	
 	
 	public BigInteger getId() {
 		return id;
@@ -53,5 +56,13 @@ public class ArquivosEnvio implements Serializable {
 
 	public void setDataArquivo(Calendar dataArquivo) {
 		this.dataArquivo = dataArquivo;
+	}
+
+	public boolean isRecebidoErro() {
+		return recebidoErro;
+	}
+
+	public void setRecebidoErro(boolean recebidoErro) {
+		this.recebidoErro = recebidoErro;
 	}
 }

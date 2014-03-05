@@ -188,7 +188,11 @@ public class RecebidoSouSuperSeguroRecusada implements Serializable{
 	@JoinColumn(name = "id_recebido_sou_super_seguro_dados_finais", referencedColumnName = "id", nullable=true)
 	private RecebidoSouSuperSeguroDadosFinaisRecusada recebidoSouSuperSeguroDadosFinais;
 
+	@Column(name="recebido_bradesco", nullable=true)
+	private boolean recebidoBradesco;
 	
+	@Column(name="codigo_erro", nullable=true)
+	private String codigoErro;
 	
 	
 	public BigInteger getId() {
@@ -576,5 +580,21 @@ public class RecebidoSouSuperSeguroRecusada implements Serializable{
 	public void setRecebidoSouSuperSeguroDadosFinais(
 			RecebidoSouSuperSeguroDadosFinaisRecusada recebidoSouSuperSeguroDadosFinais) {
 		this.recebidoSouSuperSeguroDadosFinais = recebidoSouSuperSeguroDadosFinais;
+	}
+
+	public boolean isRecebidoBradesco() {
+		return recebidoBradesco;
+	}
+
+	public void setRecebidoBradesco(boolean recebidoBradesco) {
+		this.recebidoBradesco = recebidoBradesco;
+	}
+
+	public String getCodigoErro() {
+		return codigoErro;
+	}
+
+	public void setCodigoErro(String codigoErro) {
+		this.codigoErro = codigoErro;
 	}
 }

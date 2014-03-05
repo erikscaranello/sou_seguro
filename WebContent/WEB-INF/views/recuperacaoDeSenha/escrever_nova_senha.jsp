@@ -29,13 +29,22 @@
 		</header>
 		
 		<div class="quadrado_verde">
-<%-- 		<form role="form" action="<c:url value="/recuperacao_de_senha/recuperar" />" method="post"> --%>
+
 		  <div class="form-group">
-		    <label for="exampleInputEmail1">Digite seu e-mail:</label>
-		   	<input type="email" class="form-control" placeholder="E-mail" name="email">
-		  </div>
-		  <button type="submit" id="enviar-senha" class="btn btn-default">Enviar senha</button>
-<!-- 		</form> -->
+		  	<p>Olá ${user.infosPessoais.nome} ${user.infosPessoais.sobrenome}</p> 
+		</div>
+		<div class="form-group">
+			<input type="hidden" name="login" value="${user.username}">
+		  	
+		    <label for="exampleInputEmail1">Digite aqui sua nova senha:</label>
+		   	<input type="password" class="form-control" placeholder="Senha:" name="password">
+		</div>
+		<div class="form-group">
+			<input type="password" class="form-control" placeholder="Confirmação de senha:" name="confirm_password">
 		</div>
 		
+		<div class="form-group">
+			<button id="nova-senha" type="submit" class="btn btn-default">Salvar senha</button>
+		</div>
+			
 	</body>

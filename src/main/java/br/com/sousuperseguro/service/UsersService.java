@@ -21,4 +21,8 @@ public interface UsersService {
 	boolean deleteUser(String username);
 
 	Users obterUsuarioLogado();
+
+	boolean verificarRecolocacaoDeSenha(String email);
+
+	Users obterUserporEmail(String email);
 }

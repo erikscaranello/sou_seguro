@@ -45,6 +45,8 @@ public class Users implements Serializable{
 	private InfosPessoais infosPessoais;
 
 	private Boolean enabled;
+	
+	private Boolean repassword;
 
 	public BigInteger getId() {
 		return id;
@@ -92,6 +94,14 @@ public class Users implements Serializable{
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public Boolean getRepassword() {
+		return repassword;
+	}
+
+	public void setRepassword(Boolean repassword) {
+		this.repassword = repassword;
 	}
 	
 }

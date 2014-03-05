@@ -58,6 +58,8 @@ public class HomeController {
 		ModelAndView modelAndView = new ModelAndView("home/index");
 		
 		modelAndView.addObject("listaRecusada", arquivosRecusadosService.obterArquivosRecusadosLimitCinco());
+		modelAndView.addObject("listaRecusadaBradesco", arquivosRecusadosService.obterArquivosRecusadosBradescoLimitCinco());
+		
 		return modelAndView;
 	}
 	
