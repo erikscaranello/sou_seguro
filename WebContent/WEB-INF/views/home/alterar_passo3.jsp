@@ -13,6 +13,7 @@
 	<form class="form-inline" name="formulario" method="post" action="<c:url value="/receber_alterar_dados_passo3" />">
 		
 		<input type="hidden" class="form-control obrigatorio" name="id" value="${arquivoRecusado.id}">
+		<input type="hidden" class="form-control obrigatorio" name="valor" value="${arquivoRecusado.valor}">
 		<input type="hidden" class="form-control obrigatorio" name="idPai" value="${idPai}">
 		
 		<div class="panel panel-success setenta-por-cento">

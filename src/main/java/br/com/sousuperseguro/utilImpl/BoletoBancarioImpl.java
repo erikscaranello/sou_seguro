@@ -129,7 +129,13 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		titulo.setDeducao(BigDecimal.ZERO);
 		titulo.setMora(BigDecimal.ZERO);
 		titulo.setAcrecimo(BigDecimal.ZERO);
-		titulo.setValorCobrado(BigDecimal.ZERO);
+		
+		if(dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getValor() == null) {
+			titulo.setValorCobrado(new BigDecimal("30.00"));
+		} else {
+			titulo.setValorCobrado(dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getValor());
+		}
+		
 		
 		
 		

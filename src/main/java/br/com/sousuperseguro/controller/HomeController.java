@@ -1,6 +1,7 @@
 package br.com.sousuperseguro.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -354,6 +355,7 @@ public class HomeController {
 		recebidoSouSuperSeguro.setCpfTitCorrente(request.getParameter("cpfTitCorrente").isEmpty() ? null : request.getParameter("cpfTitCorrente").replace(".", "").replace("-", ""));
 		recebidoSouSuperSeguro.setcParentescoCobr(request.getParameter("cParentescoCobr").isEmpty() ? null : Parentesco.valueOf(request.getParameter("cParentescoCobr")));
 		
+		recebidoSouSuperSeguro.setValor(request.getParameter("valor").isEmpty() ? null : new BigDecimal(request.getParameter("valor")));
 		
 		
 		RecebidoSouSuperSeguroRecusada retornoNovaEntidade = homeService.selecionarRecebidoRecusadoPorId(
@@ -368,7 +370,7 @@ public class HomeController {
 		uploadDeArquivos.fazerUpload(retornoNovaEntidade);
 		
 		try {
-			response.sendRedirect("/super_seguro");
+			response.sendRedirect("/sou_seguro");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,6 +1,9 @@
 package br.com.sousuperseguro.utilImpl;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -16,6 +19,7 @@ import br.com.sousuperseguro.entities.recusadas.RecebidoSouSuperSeguroPagamentoM
 import br.com.sousuperseguro.entities.recusadas.RecebidoSouSuperSeguroRecusada;
 import br.com.sousuperseguro.enums.Status;
 import br.com.sousuperseguro.service.VerificarEnums;
+import br.com.sousuperseguro.util.Datas;
 import br.com.sousuperseguro.util.StringParaArray;
 
 @Component
@@ -23,6 +27,9 @@ public class StringParaArrayImpl implements StringParaArray{
 
 	@Autowired
 	VerificarEnums verificarEnums;
+	
+	@Autowired
+	Datas datas;
 	
 	@Override
 	public RecebidoSouSuperSeguro souSuperSeguro(HSSFRow linhaRecebida) {
@@ -53,56 +60,36 @@ public class StringParaArrayImpl implements StringParaArray{
 				
 				
 				if(!linhaRecebida.getCell(4).getStringCellValue().isEmpty()) {
+							
+					if(!linhaRecebida.getCell(4).getStringCellValue().contains("/")) {
+						Calendar cal = datas.transformarNumeroEmData(linhaRecebida.getCell(4));
+						recebidoSouSuperSeguro.setDtNascimento(cal);
+					} else {
+						
+						Calendar cal = Calendar.getInstance();
+						String[] dataString = linhaRecebida.getCell(4).getStringCellValue().split("/");
+						
+						for(int i = 0; i < dataString.length; i++) {
+							if(dataString[i].length() < 2) {
+								dataString[i] = "0" + dataString[i];
+							}
+						}
+						
+						String dataStringFinal = dataString[0] + "/" + dataString[1] + "/" + dataString[2];
+						SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+						try {
+							cal.setTime(sdf.parse(dataStringFinal));
+							recebidoSouSuperSeguro.setDtNascimento(cal);
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+					}
 					
-//					SimpleDateFormat sdf = new SimpleDateFormat(linhaRecebida.getCell(4).getCellStyle().getDataFormatString());
-//					String[] teste = linhaRecebida.getCell(4).getStringCellValue().split("/");
-//					
-//					cellValue = sdf.format(linhaRecebida.getCell(4).getStringCellValue());
-//			
-//					
-//					short valorCelula = .getCellStyle().getDataFormat();
-//					
-//								
-//					Calendar cal = Calendar.getInstance(); 
-//					cal.setTimeInMillis(valorCelula.numFormattingRuns());
-//					
-//					recebidoSouSuperSeguro.setDtNascimento(cal);
 					
-					Calendar cal = Calendar.getInstance();
-					
-					recebidoSouSuperSeguro.setDtNascimento(cal);
 					
 				}
 				
-//			case HSSFCell.CELL_TYPE_NUMERIC:
-//			      // If the cell value is a number, create an attribute
-//			      // for the cellElement to state the data type is numeric
-//			      Attribute cellAttribute = new Attribute("dataType", "Numeric");
-//
-//			      // Add the attribute to the cell
-//			      cellElement.addAttribute(cellAttribute);
-//
-//			      // Apply the formatting from the cells to the raw data
-//			      // to get the right format in the XML. First, create an
-//			      // HSSFDataFormatter object.
-//
-//			      HSSFDataFormatter dataFormatter = new HSSFDataFormatter();
-//
-//			      // Then use the HSSFDataFormatter to return a formatted string
-//			      // from the cell rather than a raw numeric value:
-//			      String cellFormatted = dataFormatter.formatCellValue(oneCell);
-//
-//			      //Append the formatted data into the element
-//			      cellElement.appendChild(cellFormatted);
-//
-//			      // Append the cell element into the row
-//			      rowElement.appendChild(cellElement);
-//
-//			      break;
-				
-				
-				
-				
+
 				
 				recebidoSouSuperSeguro.setcSexo(verificarEnums.verificarSexo(linhaRecebida.getCell(5).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(5).getStringCellValue()));
 				recebidoSouSuperSeguro.setCpf(linhaRecebida.getCell(6).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(6).getStringCellValue().replace(".", "").replace("-", ""));
@@ -123,13 +110,35 @@ public class StringParaArrayImpl implements StringParaArray{
 				
 				recebidoSouSuperSeguroCobranca.setNmCobr(linhaRecebida.getCell(18).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(18).getStringCellValue());
 				
-				if(!linhaRecebida.getCell(19).getStringCellValue().isEmpty()) {  
-					Calendar cal = Calendar.getInstance(); 
+				
+				if(!linhaRecebida.getCell(19).getStringCellValue().isEmpty()) {
 					
-//					cal.setTime(linhaRecebida.getCell(19).getDateCellValue());
-					recebidoSouSuperSeguroCobranca.setDtNascCobr(cal);
+					if(!linhaRecebida.getCell(19).getStringCellValue().contains("/")) {
+						Calendar cal = datas.transformarNumeroEmData(linhaRecebida.getCell(19));
+						
+						recebidoSouSuperSeguroCobranca.setDtNascCobr(cal);
+					} else {
+						
+						Calendar cal = Calendar.getInstance();
+						String[] dataString = linhaRecebida.getCell(19).getStringCellValue().split("/");
+						
+						for(int i = 0; i < dataString.length; i++) {
+							if(dataString[i].length() < 2) {
+								dataString[i] = "0" + dataString[i];
+							}
+						}
+						
+						String dataStringFinal = dataString[0] + "/" + dataString[1] + "/" + dataString[2];
+						SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+						try {
+							cal.setTime(sdf.parse(dataStringFinal));
+							recebidoSouSuperSeguroCobranca.setDtNascCobr(cal);
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+					}
+					
 				}
-			
 				
 				recebidoSouSuperSeguroCobranca.setCpfCobr(linhaRecebida.getCell(20).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(20).getStringCellValue().replace(".", "").replace("-", ""));
 				recebidoSouSuperSeguroCobranca.setrLogradCobr(linhaRecebida.getCell(21).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(21).getStringCellValue());
@@ -143,13 +152,34 @@ public class StringParaArrayImpl implements StringParaArray{
 				recebidoSouSuperSeguroCobranca.setnFone1(linhaRecebida.getCell(29).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(29).getStringCellValue().replace("-", ""));
 				recebidoSouSuperSeguroCobranca.setEmail(linhaRecebida.getCell(30).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(30).getStringCellValue());	
 				
-				if(!linhaRecebida.getCell(31).getStringCellValue().isEmpty()) { 
-					Calendar cal = Calendar.getInstance(); 
-//					cal.setTime(linhaRecebida.getCell(31).getDateCellValue());
-					recebidoSouSuperSeguroCobranca.setDataInicioCobr(cal);
-				}
-							
 				
+				if(!linhaRecebida.getCell(31).getStringCellValue().isEmpty()) {
+					
+					if(!linhaRecebida.getCell(31).getStringCellValue().contains("/")) {
+						Calendar cal = datas.transformarNumeroEmData(linhaRecebida.getCell(31));
+						recebidoSouSuperSeguroCobranca.setDataInicioCobr(cal);
+					} else {
+						
+						Calendar cal = Calendar.getInstance();
+						String[] dataString = linhaRecebida.getCell(31).getStringCellValue().split("/");
+						
+						for(int i = 0; i < dataString.length; i++) {
+							if(dataString[i].length() < 2) {
+								dataString[i] = "0" + dataString[i];
+							}
+						}
+						
+						String dataStringFinal = dataString[0] + "/" + dataString[1] + "/" + dataString[2];
+						SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+						try {
+							cal.setTime(sdf.parse(dataStringFinal));
+							recebidoSouSuperSeguroCobranca.setDataInicioCobr(cal);
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+					}
+					
+				}
 				
 				RecebidoSouSuperSeguroPagamentoMensalidade recebidoSouSuperSeguroMensalidade = new RecebidoSouSuperSeguroPagamentoMensalidade();
 				recebidoSouSuperSeguroMensalidade.setNroBanco(linhaRecebida.getCell(32).getStringCellValue().isEmpty() ? null : verificarEnums.verificarBanco(linhaRecebida.getCell(32).getStringCellValue()));
@@ -161,7 +191,9 @@ public class StringParaArrayImpl implements StringParaArray{
 				recebidoSouSuperSeguroMensalidade.setNmTitCorrente(linhaRecebida.getCell(38).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(38).getStringCellValue());
 				recebidoSouSuperSeguroMensalidade.setCpfTitCorrente(linhaRecebida.getCell(39).getStringCellValue().isEmpty() ? null : linhaRecebida.getCell(39).getStringCellValue().replace(".", "").replace("-", ""));
 				recebidoSouSuperSeguroMensalidade.setcParentescoCobr(linhaRecebida.getCell(40).getStringCellValue().isEmpty() ? null : verificarEnums.verificarParentesco(linhaRecebida.getCell(40).getStringCellValue()));
-
+				
+				recebidoSouSuperSeguroMensalidade.setValor(linhaRecebida.getCell(41).getStringCellValue().isEmpty() ? null : new BigDecimal( linhaRecebida.getCell(41).getStringCellValue().replace(",", ".") ) );
+				
 				
 				recebidoSouSuperSeguro.setRecebidoSouSuperSeguroCobranca(recebidoSouSuperSeguroCobranca);
 				recebidoSouSuperSeguro.setRecebidoSouSuperSeguroPagamentoMensalidade(recebidoSouSuperSeguroMensalidade);			
@@ -232,6 +264,8 @@ public class StringParaArrayImpl implements StringParaArray{
 		mensalidadeRecusada.setNmTitCorrente(retorno.getRecebidoSouSuperSeguroPagamentoMensalidade().getNmTitCorrente());
 		mensalidadeRecusada.setCpfTitCorrente(retorno.getRecebidoSouSuperSeguroPagamentoMensalidade().getCpfTitCorrente());
 		mensalidadeRecusada.setcParentescoCobr(retorno.getRecebidoSouSuperSeguroPagamentoMensalidade().getcParentescoCobr());
+		
+		mensalidadeRecusada.setValor(retorno.getRecebidoSouSuperSeguroPagamentoMensalidade().getValor());
 	
 		recusado.setRecebidoSouSuperSeguroPagamentoMensalidade(mensalidadeRecusada);
 		
@@ -333,7 +367,9 @@ public class StringParaArrayImpl implements StringParaArray{
 		mensalidade.setTpCobr(retornoNovaEntidade.getRecebidoSouSuperSeguroPagamentoMensalidade().getTpCobr());
 		mensalidade.setNmTitCorrente(retornoNovaEntidade.getRecebidoSouSuperSeguroPagamentoMensalidade().getNmTitCorrente());
 		mensalidade.setCpfTitCorrente(retornoNovaEntidade.getRecebidoSouSuperSeguroPagamentoMensalidade().getCpfTitCorrente());
-		mensalidade.setcParentescoCobr(retornoNovaEntidade.getRecebidoSouSuperSeguroPagamentoMensalidade().getcParentescoCobr());
+
+
+		mensalidade.setValor(retornoNovaEntidade.getRecebidoSouSuperSeguroPagamentoMensalidade().getValor());
 	
 		recebido.setRecebidoSouSuperSeguroPagamentoMensalidade(mensalidade);
 		

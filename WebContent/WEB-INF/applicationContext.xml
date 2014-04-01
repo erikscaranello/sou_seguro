@@ -37,18 +37,18 @@
 	</authentication-manager>
 
 
-<!-- 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" > -->
-<!-- 		<beans:property name="url" value="jdbc:mysql://localhost:3306/super_seguro_leitor" /> -->
-<!-- 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-<!-- 		<beans:property name="username" value="root" /> -->
-<!-- 		<beans:property name="password" value="root" /> -->
-<!-- 	</beans:bean> -->
-	
 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
 		<beans:property name="url" value="jdbc:mysql://localhost:3306/super_seguro_leitor" />
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<beans:property name="username" value="root" />
-		<beans:property name="password" value="design0506" />
+		<beans:property name="password" value="root" />
 	</beans:bean>
+	
+<!-- 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" > -->
+<!-- 		<beans:property name="url" value="jdbc:mysql://localhost:3306/super_seguro_leitor?autoReconnect=true" /> -->
+<!-- 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+<!-- 		<beans:property name="username" value="root" /> -->
+<!-- 		<beans:property name="password" value="design0506" /> -->
+<!-- 	</beans:bean> -->
 	
 </beans:beans>	

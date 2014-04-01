@@ -1,6 +1,7 @@
 package br.com.sousuperseguro.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import javax.persistence.Column;
@@ -58,6 +59,9 @@ public class RecebidoSouSuperSeguroPagamentoMensalidade implements Serializable{
 	@Enumerated(EnumType.STRING)
 	@Column(name="c_parentesco_cobr", nullable=true, length=11)
 	private Parentesco cParentescoCobr;
+	
+	@Column(nullable=true)
+	private BigDecimal valor;
 
 	public BigInteger getId() {
 		return id;
@@ -137,6 +141,14 @@ public class RecebidoSouSuperSeguroPagamentoMensalidade implements Serializable{
 
 	public void setcParentescoCobr(Parentesco cParentescoCobr) {
 		this.cParentescoCobr = cParentescoCobr;
+	}
+
+	public BigDecimal getValor() {
+		return valor;
+	}
+
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
 	}
 	
 }

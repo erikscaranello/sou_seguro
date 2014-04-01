@@ -1,6 +1,7 @@
 package br.com.sousuperseguro.entities.recusadas;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import javax.persistence.Column;
@@ -59,6 +60,9 @@ public class RecebidoSouSuperSeguroPagamentoMensalidadeRecusada implements Seria
 	@Enumerated(EnumType.STRING)
 	@Column(name="c_parentesco_cobr", nullable=false)
 	private Parentesco cParentescoCobr;
+	
+	@Column(nullable=true)
+	private BigDecimal valor;
 
 	public BigInteger getId() {
 		return id;
@@ -138,6 +142,14 @@ public class RecebidoSouSuperSeguroPagamentoMensalidadeRecusada implements Seria
 
 	public void setcParentescoCobr(Parentesco cParentescoCobr) {
 		this.cParentescoCobr = cParentescoCobr;
+	}
+
+	public BigDecimal getValor() {
+		return valor;
+	}
+
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
 	}
 	
 }

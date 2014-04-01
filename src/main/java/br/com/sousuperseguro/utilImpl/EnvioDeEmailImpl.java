@@ -3,12 +3,10 @@ package br.com.sousuperseguro.utilImpl;
 import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.MultiPartEmail;
-import org.apache.commons.mail.SimpleEmail;
 import org.jrimum.bopepo.view.BoletoViewer;
 import org.springframework.stereotype.Component;
 
@@ -23,12 +21,12 @@ public class EnvioDeEmailImpl implements EnvioDeEmail {
 	public void enviarEmail(Users user) {
 		
 		HtmlEmail email = new HtmlEmail();
-		email.setHostName("smtp.sousuperseguro.kinghost.net");
+		email.setHostName("smtp.supersegurocorretora.com.br");
 		email.setSmtpPort(587);
-		email.setAuthenticator(new DefaultAuthenticator("nao_responder@sousuperseguro.kinghost.net", "35jkg6w1"));
+		email.setAuthenticator(new DefaultAuthenticator("nao_responder@supersegurocorretora.com.br", "35jkg6w1"));
 		email.setSSLOnConnect(true);
 		try {
-			email.setFrom("nao_responder@sousuperseguro.kinghost.net");
+			email.setFrom("nao_responder@supersegurocorretora.com.br");
 		} catch (EmailException e) {
 			e.printStackTrace();
 		}
@@ -42,7 +40,7 @@ public class EnvioDeEmailImpl implements EnvioDeEmail {
 		
 			email.setHtmlMsg("<html><head></head><body><p>Ola "+ user.getInfosPessoais().getNome() + " " + user.getInfosPessoais().getSobrenome() + "</p>" +
 					"<p>Acesse este link para refazer sua senha: </p>"
-					+ "<p><a href='localhost:8080/sou_seguro/recuperacao_de_senha/nova_senha?email="+ user.getInfosPessoais().getEmail() +"'>Recuperacao de senha de " + user.getInfosPessoais().getNome() + " " + user.getInfosPessoais().getSobrenome() + "</a></p>" +
+					+ "<p><a href='http://cpro20821.publiccloud.com.br/sou_seguro/recuperacao_de_senha/nova_senha?email="+ user.getInfosPessoais().getEmail() +"'>Recuperacao de senha de " + user.getInfosPessoais().getNome() + " " + user.getInfosPessoais().getSobrenome() + "</a></p>" +
 					"</body></html>");
 		
 		} catch (EmailException e) {
@@ -74,15 +72,15 @@ public class EnvioDeEmailImpl implements EnvioDeEmail {
 		
 		
 		MultiPartEmail  email = new MultiPartEmail ();
-		email.setHostName("smtp.sousuperseguro.kinghost.net");
+		email.setHostName("smtp.supersegurocorretora.com.br");
 		email.setSmtpPort(587);
-		email.setAuthenticator(new DefaultAuthenticator("nao_responder@sousuperseguro.kinghost.net", "35jkg6w1"));
+		email.setAuthenticator(new DefaultAuthenticator("nao_responder@supersegurocorretora.com.br", "35jkg6w1"));
 		email.setSSLOnConnect(true);
 		email.setSubject("Boleto de Pagamento, Sou Super Seguro Corretora");
 		
 		try {
-			email.setFrom("nao_responder@sousuperseguro.kinghost.net");
-			email.setMsg("Ol√°, este √© um e-mail da Sou Super Seguro Corretora com o seu boleto.");
+			email.setFrom("nao_responder@supersegurocorretora.com.br");
+			email.setMsg("Ol·, este È um e-mail da Sou Super Seguro Corretora com o seu boleto.");
 			email.addTo(cliente.getRecebidoSouSuperSeguroCobranca().getEmail());
 			
 			email.attach(new ByteArrayDataSource(boleto.getPdfAsByteArray(), "application/pdf"),
