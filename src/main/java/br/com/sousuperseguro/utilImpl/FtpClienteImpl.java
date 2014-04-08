@@ -45,6 +45,7 @@ public class FtpClienteImpl implements Job{
     			
     			if( FTPReply.isPositiveCompletion( ftp.getReplyCode() ) ) {  
                     ftp.login( "superseg.bdpf", "$3gur@bdpf%" );  
+                    ftp.enterLocalPassiveMode();
                     
                     String retornoArquivoMontado = montagemDeArquivo.montarArquivoDeEnvio(listaRecebidos);
                     ArquivosEnvio ultimoArquivoEnviado = arquivosEnvioService.obterUltimoArquivoDeEnvio();

@@ -41,6 +41,7 @@ public class FtpSuperSeguroImpl implements Job{
 			
 			if( FTPReply.isPositiveCompletion( ftp.getReplyCode() ) ) {  
                 ftp.login( "superseg.bdpf", "$3gur@bdpf%" );  
+                ftp.enterLocalPassiveMode();
                 
                 List<ArquivosEnvio> arrayArquivosRecebidos = arquivosEnvioService.obterListaNaoRecebidosErro();
  
