@@ -1,4 +1,4 @@
-package br.com.sousuperseguro.utilImpl;
+package br.com.sousuperseguro.crontab;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -11,10 +11,8 @@ import java.util.List;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import br.com.sousuperseguro.entities.ArquivosEnvio;
@@ -22,7 +20,7 @@ import br.com.sousuperseguro.service.ArquivosEnvioService;
 import br.com.sousuperseguro.util.LeituraDeArquivo;
 
 @Component
-public class FtpSuperSeguroImpl implements Job{
+public class FtpSuperSeguroImpl{
 	
 	@Autowired
 	ArquivosEnvioService arquivosEnvioService;
@@ -30,9 +28,8 @@ public class FtpSuperSeguroImpl implements Job{
 	@Autowired
 	LeituraDeArquivo leituraDeArquivo;
 	
-	
-	@Override
-	public void execute(JobExecutionContext arg0) throws JobExecutionException {
+	@Scheduled(cron="00 08 * * * *")
+	public void executar() {
 		
 		FTPClient ftp = new FTPClient();
 		
@@ -41,6 +38,7 @@ public class FtpSuperSeguroImpl implements Job{
 			
 			if( FTPReply.isPositiveCompletion( ftp.getReplyCode() ) ) {  
                 ftp.login( "superseg.bdpf", "$3gur@bdpf%" );  
+                
                 ftp.enterLocalPassiveMode();
                 
                 List<ArquivosEnvio> arrayArquivosRecebidos = arquivosEnvioService.obterListaNaoRecebidosErro();

@@ -1,4 +1,4 @@
-package br.com.sousuperseguro.utilImpl;
+package br.com.sousuperseguro.crontab;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -11,10 +11,8 @@ import java.util.List;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import br.com.sousuperseguro.entities.ArquivosEnvio;
@@ -22,18 +20,20 @@ import br.com.sousuperseguro.entities.RecebidoSouSuperSeguro;
 import br.com.sousuperseguro.service.ArquivosEnvioService;
 import br.com.sousuperseguro.util.MontagemDeArquivo;
 
-
 @Component
-public class FtpClienteImpl implements Job{
+public class FtpClienteImpl {
 	
 	@Autowired
 	MontagemDeArquivo montagemDeArquivo;
 	
 	@Autowired
 	ArquivosEnvioService arquivosEnvioService;
-
-	@Override
-	public void execute(JobExecutionContext arg0) throws JobExecutionException {
+	
+	@Scheduled(cron="30 22 * * * *")
+	public void executar() {
+		
+		System.out.println("Tempo scheduler: " + Calendar.getInstance().getTime());
+		
 		List<RecebidoSouSuperSeguro> listaRecebidos = arquivosEnvioService.selecionarRecebidosSuperSeguro();
         
         if(! listaRecebidos.isEmpty()) {
@@ -45,6 +45,7 @@ public class FtpClienteImpl implements Job{
     			
     			if( FTPReply.isPositiveCompletion( ftp.getReplyCode() ) ) {  
                     ftp.login( "superseg.bdpf", "$3gur@bdpf%" );  
+                    
                     ftp.enterLocalPassiveMode();
                     
                     String retornoArquivoMontado = montagemDeArquivo.montarArquivoDeEnvio(listaRecebidos);
