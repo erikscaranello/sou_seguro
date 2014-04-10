@@ -32,8 +32,6 @@ public class FtpClienteImpl {
 	@Scheduled(cron="30 22 * * * *")
 	public void executar() {
 		
-		System.out.println("Tempo scheduler: " + Calendar.getInstance().getTime());
-		
 		List<RecebidoSouSuperSeguro> listaRecebidos = arquivosEnvioService.selecionarRecebidosSuperSeguro();
         
         if(! listaRecebidos.isEmpty()) {
@@ -78,29 +76,14 @@ public class FtpClienteImpl {
                     try {
                     	
                         String nomeDoArquivoFinal = "SSCCD" + nomeDoArquivo + ".#01";      
-                        
-                        
-//                        OutputStream os = new FileOutputStream("C:\\Users\\Erik Scaranello\\Documents\\" + nomeDoArquivoFinal);
-//                        OutputStreamWriter osw = new OutputStreamWriter(os);
-//                        BufferedWriter bw = new BufferedWriter(osw);
-//                    
-//                        bw.write(retornoArquivoMontado);
-//                        
-//                        bw.close();
-                        
-                        
-//                        for(RecebidoSouSuperSeguro recebido :listaRecebidos) {
-//                    		recebido.setEnviado(true);
-//                    		arquivosEnvioService.insertRecebidoEnviado(recebido);
-//                    	}
-                        
+                                     
                         InputStream readerInputStream = new ByteArrayInputStream(retornoArquivoMontado.getBytes());
                                             
                         if(ftp.storeFile(nomeDoArquivoFinal, readerInputStream)) {
                         	
                         	arquivosEnvioService.insertNovoArquivo(arquivoEnvioInsert);
                         	
-                        	for(RecebidoSouSuperSeguro recebido :listaRecebidos) {
+                        	for(RecebidoSouSuperSeguro recebido : listaRecebidos) {
                         		recebido.setEnviado(true);
                         		arquivosEnvioService.insertRecebidoEnviado(recebido);
                         	}

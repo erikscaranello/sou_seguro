@@ -110,7 +110,14 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		Date data = new Date();
 		
 		//???
-		titulo.setValor(BigDecimal.valueOf(10.00));
+		
+		if(dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getValor() == null) {
+			titulo.setValor(new BigDecimal("30.00"));
+		} else {
+			titulo.setValor(dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getValor());
+		}
+		
+		
 		titulo.setDataDoDocumento(data);
 		
 		int dataMais3diasInteger = data.getDate() + 3;
