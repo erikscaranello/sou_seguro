@@ -37,6 +37,8 @@ public class BoletoBancarioImpl implements BoletoBancario {
 	
 	@Autowired
 	NumeroDocumentoService numeroDocumentoService;
+	
+	static final private String NUMERO_CARTEIRA = "06";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -76,7 +78,7 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		ContaBancaria contaBancaria = new ContaBancaria(banco(237));
 		contaBancaria.setAgencia(new Agencia(2842, "8"));
 		contaBancaria.setNumeroDaConta(new NumeroDaConta(8490, "5"));
-		contaBancaria.setCarteira(new Carteira(06));
+		contaBancaria.setCarteira(new Carteira(Integer.valueOf(NUMERO_CARTEIRA)));
 		
 		
 		Titulo titulo = new Titulo(contaBancaria, sacado, cedente);
@@ -99,12 +101,12 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		
 		NumeroDocumento numeroDocumento = new NumeroDocumento();
 		numeroDocumento.setNumeroDocumento(idNumeroDocumento);
-		numeroDocumento.setNossoNumero(arrayNossoNumero[1] + "-" + arrayNossoNumero[2]);
+		numeroDocumento.setNossoNumero(NUMERO_CARTEIRA + arrayNossoNumero[1] + "-" + arrayNossoNumero[2]);
 		numeroDocumento.setIdRecebidoSouSuperSeguro(dadosDoCliente);
 		numeroDocumentoService.insertNumeroDocumento(numeroDocumento);
 		
 		
-		titulo.setNossoNumero(arrayNossoNumero[1]);
+		titulo.setNossoNumero(NUMERO_CARTEIRA + arrayNossoNumero[1]);
 		titulo.setDigitoDoNossoNumero(arrayNossoNumero[2]);
 		
 		Date data = new Date();
@@ -129,13 +131,13 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		
 		
 		titulo.setTipoDeDocumento(TipoDeTitulo.DM_DUPLICATA_MERCANTIL);
-		titulo.setAceite(Aceite.A);
+		titulo.setAceite(Aceite.N);
 		
 		//???
-		titulo.setDesconto(new BigDecimal(0.00));
-		titulo.setDeducao(BigDecimal.ZERO);
-		titulo.setMora(BigDecimal.ZERO);
-		titulo.setAcrecimo(BigDecimal.ZERO);
+		titulo.setDesconto(null);
+		titulo.setDeducao(null);
+		titulo.setMora(null);
+		titulo.setAcrecimo(null);
 		
 		if(dadosDoCliente.getRecebidoSouSuperSeguroPagamentoMensalidade().getValor() == null) {
 			titulo.setValorCobrado(new BigDecimal("30.00"));
@@ -148,8 +150,7 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		
 		Boleto boleto = new Boleto(titulo);
         
-		boleto.setLocalPagamento("Pagável preferencialmente no Banco Bradesco ou em " +
-		                "qualquer Banco até o Vencimento.");
+		boleto.setLocalPagamento("Pagável preferencialmente na Rede Bradesco ou Bradesco Expresso.");
 
 		
 		boleto.setInstrucao1("ATENÇÃO SR. CAIXA: Não receber se o campo Pagador não estiver preenchido");
