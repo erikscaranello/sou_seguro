@@ -75,7 +75,7 @@ public class EnvioDeEmailImpl implements EnvioDeEmail {
 		email.setHostName("smtp.supersegurocorretora.com.br");
 		email.setSmtpPort(587);
 		email.setAuthenticator(new DefaultAuthenticator("nao_responder@supersegurocorretora.com.br", "35jkg6w1"));
-		email.setSSLOnConnect(true);
+//		email.setSSLOnConnect(true);
 		email.setSubject("Boleto de Pagamento, Sou Super Seguro Corretora");
 		
 		try {

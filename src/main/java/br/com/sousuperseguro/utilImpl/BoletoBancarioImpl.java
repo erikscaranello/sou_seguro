@@ -1,6 +1,8 @@
 package br.com.sousuperseguro.utilImpl;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.Date;
 
 import org.jrimum.bopepo.BancosSuportados;
@@ -21,6 +23,7 @@ import org.jrimum.domkee.financeiro.banco.febraban.Titulo;
 import org.jrimum.domkee.financeiro.banco.febraban.Titulo.Aceite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.jsf.FacesContextUtils;
 
 import br.com.sousuperseguro.entities.NumeroDocumento;
 import br.com.sousuperseguro.entities.RecebidoSouSuperSeguro;
@@ -106,7 +109,7 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		numeroDocumentoService.insertNumeroDocumento(numeroDocumento);
 		
 		
-		titulo.setNossoNumero(NUMERO_CARTEIRA + arrayNossoNumero[1]);
+		titulo.setNossoNumero(arrayNossoNumero[1]);
 		titulo.setDigitoDoNossoNumero(arrayNossoNumero[2]);
 		
 		Date data = new Date();
@@ -159,7 +162,7 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		boleto.setInstrucao8("APÓS o Vencimento, Pagável Somente no Banco Bradesco.");
 		
 		BoletoViewer boletoViewer = new BoletoViewer(boleto);
-		
+		boletoViewer.setTemplate("/home/boleto/pagadorBeneficiario.pdf");
 		
 //		File file = new File("C:\\Users\\Erik Scaranello\\Documents\\boleto.pdf"); //Criamos um nome para o arquivo  
 //		BufferedOutputStream bos = null;
