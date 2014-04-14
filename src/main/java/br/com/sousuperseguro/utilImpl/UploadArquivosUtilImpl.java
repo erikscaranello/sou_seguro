@@ -93,7 +93,7 @@ public class UploadArquivosUtilImpl implements UploadArquivosUtil {
 							propostaRepository.insert(propostaNova);
 							
 							if(retorno.getRecebidoSouSuperSeguroPagamentoMensalidade().getTpCobr().getTipoCobranca() == 1) {
-								BoletoViewer boleto = boletoBancario.gerarBoleto(retorno);
+								BoletoViewer boleto = boletoBancario.gerarBoleto(retorno, novoIdProposta);
 								envioDeEmail.enviarEmailComBoleto(retorno, boleto);
 							}
 							
@@ -149,7 +149,7 @@ public class UploadArquivosUtilImpl implements UploadArquivosUtil {
 				
 				propostaRepository.insert(propostaNova);
 				
-				BoletoViewer boleto = boletoBancario.gerarBoleto(ultimoRecebido);
+				BoletoViewer boleto = boletoBancario.gerarBoleto(retorno, novoIdProposta);
 				envioDeEmail.enviarEmailComBoleto(ultimoRecebido, boleto);
 				
 				uploadDeArquivosRepository.delete(retornoNovaEntidade);

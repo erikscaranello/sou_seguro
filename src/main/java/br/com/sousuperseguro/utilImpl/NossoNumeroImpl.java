@@ -10,13 +10,13 @@ import br.com.sousuperseguro.util.NossoNumero;
 public class NossoNumeroImpl implements NossoNumero {
 	
 	@Override
-	public String[] gerarNossoNumero(BigInteger idRecebidoSouSuperSeguro, String carteira) {
+	public String[] gerarNossoNumero(BigInteger idProposta, String carteira) {
 		
 		int[] multiplicadores = {2, 7, 6, 5, 4, 3, 2, 7, 6, 5, 4, 3, 2};
 		
 		String[] retorno = new String[3];
 		
-		String idNossoNumero = idRecebidoSouSuperSeguro.toString();
+		String idNossoNumero = idProposta.toString();
 		
 		for(int i = idNossoNumero.length(); i < 11; i++) {
 			 idNossoNumero = "0"+ idNossoNumero ;

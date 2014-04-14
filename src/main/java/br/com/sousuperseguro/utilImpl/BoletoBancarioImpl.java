@@ -1,8 +1,7 @@
 package br.com.sousuperseguro.utilImpl;
 
-import java.io.InputStream;
 import java.math.BigDecimal;
-import java.net.URL;
+import java.math.BigInteger;
 import java.util.Date;
 
 import org.jrimum.bopepo.BancosSuportados;
@@ -23,7 +22,6 @@ import org.jrimum.domkee.financeiro.banco.febraban.Titulo;
 import org.jrimum.domkee.financeiro.banco.febraban.Titulo.Aceite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.jsf.FacesContextUtils;
 
 import br.com.sousuperseguro.entities.NumeroDocumento;
 import br.com.sousuperseguro.entities.RecebidoSouSuperSeguro;
@@ -45,7 +43,7 @@ public class BoletoBancarioImpl implements BoletoBancario {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public BoletoViewer gerarBoleto(RecebidoSouSuperSeguro dadosDoCliente) {
+	public BoletoViewer gerarBoleto(RecebidoSouSuperSeguro dadosDoCliente, BigInteger idProposta) {
 		
 		
 		Cedente cedente = new Cedente("OdontoPrev S.A.", "58.119.199/0001-51");
@@ -98,7 +96,7 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		
 		titulo.setNumeroDoDocumento(idNumeroDocumento);
 		
-		String[] arrayNossoNumero = nossoNumero.gerarNossoNumero(dadosDoCliente.getId(), "06");
+		String[] arrayNossoNumero = nossoNumero.gerarNossoNumero(idProposta, "06");
 		
 
 		
@@ -163,6 +161,9 @@ public class BoletoBancarioImpl implements BoletoBancario {
 		
 		BoletoViewer boletoViewer = new BoletoViewer(boleto);
 		boletoViewer.setTemplate("/home/boleto/pagadorBeneficiario.pdf");
+//		/home/boleto/pagadorBeneficiario.pdf
+//		C:/Users/Pc6/pagadorBeneficiario.pdf
+		
 		
 //		File file = new File("C:\\Users\\Erik Scaranello\\Documents\\boleto.pdf"); //Criamos um nome para o arquivo  
 //		BufferedOutputStream bos = null;
